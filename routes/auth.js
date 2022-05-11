@@ -12,10 +12,10 @@ router.post('/signup', (req, res, next) => {
 		res.status(400).json({ message: 'Provide email, password and name' })
 		return
 	}
-	// if (password.length < 4) {
-	// 	res.status(400).json({ message: 'Password has to be 4 chars min' })
-	// 	return
-	// }
+	if (password.length < 4) {
+		res.status(400).json({ message: 'Password has to be 4 chars min' })
+		return
+	}
 	// check the database if a user with the same email exists
 	User.findOne({ email })
 		.then(foundUser => {

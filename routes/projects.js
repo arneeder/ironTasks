@@ -24,4 +24,22 @@ router.post('/', (req, res, next) => {
         .catch(err => next(err))
 });
 
+router.get('/:id', (req, res, next) => {
+    const projectId = req.params.id
+    Project.findById(projectId)
+        .then( project => {
+            res.status(200).json(project)
+        })
+        .catch(err => next(err))
+});
+
+router.delete('/:id', (req, res, next) => {
+    const projectId = req.params.id
+    Project.findByIdAndDelete(projectId)
+        .then( () => {
+            res.status(200).json({ message: 'project deleted' })
+        })
+        .catch(err => next(err))
+});
+
 module.exports = router;

@@ -15,7 +15,7 @@ const Login = () => {
   // handle functions
   const handleSubmit = e => {
     e.preventDefault()
-    const requestBody = {email, password}
+    const requestBody = { email, password }
     console.log(requestBody);
 
     axios.post('/api/auth/login', requestBody)
@@ -39,10 +39,10 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email: </label>
-        <input type="text" value={email} onChange={handleEmail} />
+        <input type="text" value={email} onChange={ handleEmail } />
 
         <label htmlFor="password">Password: </label>
-        <input type="password" value={password} onChange={handlePassword} />
+        <input type="password" value={password} onChange={ handlePassword } />
 
         <button type="submit">Log In</button>
       </form>

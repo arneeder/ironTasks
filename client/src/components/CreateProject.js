@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 
-const CreateProject = () => {
+const CreateProject = props => {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -16,6 +16,7 @@ const CreateProject = () => {
                 console.log({response})
                 setName(() => '')
                 setDescription(() => '')
+                props.getMyProjects()
             })
             .catch(err => console.log(err))
     }

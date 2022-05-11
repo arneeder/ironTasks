@@ -4,7 +4,7 @@ const Project = require("../models/Project")
 router.get('/', (req, res, next) => {
     const userId = req.payload._id
 
-    Project.find({_id: {$or: [{$in: {admins: userId}}, {$in: {users: userId}}]}})
+    Project.find({members: userId})
         .then( projects =>{
             res.status(200).json(projects)
         })

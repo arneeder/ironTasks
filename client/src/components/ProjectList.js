@@ -1,27 +1,27 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Card from 'react-bootstrap/Card';
 
-const ProjectList = () => {
+const ProjectList = props => {
 
-    const [projects, setProjects] = useState([])
-    const storedToken = localStorage.getItem('authToken')
+    // const [projects, setProjects] = useState([])
+    // const storedToken = localStorage.getItem('authToken')
 
-    const getMyProjects = () => {
-        axios.get('/api/projects/',  { headers: { Authorization: `Bearer ${storedToken}` } } )
-            .then( myProjects => {
-                setProjects(() => myProjects.data)
-            })
-            .catch(error => console.log(error))
-    }
+    // const getMyProjects = () => {
+    //     axios.get('/api/projects/',  { headers: { Authorization: `Bearer ${storedToken}` } } )
+    //         .then( myProjects => {
+    //             setProjects(() => myProjects.data)
+    //         })
+    //         .catch(error => console.log(error))
+    // }
 
-    useEffect(() => {getMyProjects()}, [])
+    useEffect(() => {props.getMyProjects()}, [])
   
     return (
         <>
             {
-                projects.map( project => (
-                    <Card>
+                props.projects.map( project => (
+                    <Card key={project._id}>
                         <Card.Body>
                             <Card.Title>{project.name}</Card.Title>
                             <Card.Title>{project.description}</Card.Title>

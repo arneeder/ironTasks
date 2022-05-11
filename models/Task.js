@@ -37,9 +37,12 @@ const taskSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Project',
         },
-        status: String
-      }],
-    isDone: Boolean
+        type: String
+    }],
+    status: {
+        type: String,
+        enum: ['not started', 'in progress', 'completed']
+    }
   },
   {
     timestamps: true,

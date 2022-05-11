@@ -6,6 +6,7 @@ const projectSchema = new Schema(
         type: String,
         required: true
     },
+    description: String,
     admins: [
         {
             type: Schema.Types.ObjectId,

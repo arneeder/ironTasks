@@ -5,8 +5,9 @@ import axios from 'axios'
 
 const Projects = () => {
   
-  const [projects, setProjects] = useState([])
   const storedToken = localStorage.getItem('authToken')
+
+  const [projects, setProjects] = useState([])
 
   const getMyProjects = () => {
     axios.get('/api/projects/',  { headers: { Authorization: `Bearer ${storedToken}` } } )

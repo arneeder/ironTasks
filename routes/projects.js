@@ -17,7 +17,6 @@ router.post('/', (req, res, next) => {
     const { name, description } = req.body
     const admins = [currentUserId]
     const members = [currentUserId]
-    console.log({ name, description, admins, members });
 
     Project.create({ name, description, admins, members })
         .then( createdProject => res.status(201).json(createdProject))

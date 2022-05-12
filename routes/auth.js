@@ -76,7 +76,6 @@ router.post('/login', (req, res, next) => {
 
 router.get('/verify', isAuthenticated, (req, res, next) => {
 	// if the token is valid we can access it on : req.payload
-	console.log('request payload is: ', req.payload)
 	res.status(200).json(req.payload)
 });
 

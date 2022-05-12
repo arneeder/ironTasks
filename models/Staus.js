@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const taskSchema = new Schema(
+const statusSchema = new Schema(
     {
         name: String,
         cluster: {
@@ -13,6 +13,6 @@ const taskSchema = new Schema(
     }
 );
 
-const Task = model("Task", taskSchema);
+const Status = model("Status", statusSchema);
 
-module.exports = Task;
+module.exports = Status;

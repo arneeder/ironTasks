@@ -19,20 +19,21 @@ const projectSchema = new Schema(
             ref: 'User'
         }
     ],
-    statusColumns: {
-        type: Array,
-        required: true,
-        default: ['To Do', 'Doing', 'Done']
-    },
+    statusColumns: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Staus'
+        }
+    ],
     parentProject: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Project',
         default: null
     },
     childProjects: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Project',
             default: null
         }
     ],

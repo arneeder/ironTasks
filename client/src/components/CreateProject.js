@@ -12,7 +12,6 @@ const CreateProject = () => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        console.log('handle submit is executed');
         axios.post('/api/projects/', {name, description}, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( response => {
                 console.log({response})

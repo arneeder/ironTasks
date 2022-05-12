@@ -16,7 +16,6 @@ router.get('/', (req, res, next) => {
             })
             Task.find({projects: {$in: myProjectIds}})
                 .then( tasks => {
-                    console.log({tasks})
                     res.status(200).json(tasks)
                 })
                 .catch(err => next(err))
@@ -35,16 +34,23 @@ router.get('/project/:id', (req, res, next) => {
     Project.findById(projectId)
         .then( project => {
             Task.find({projects: project._id})
+                .populate('accountable')
+                .populate('responsible')
+                .populate('status')
+                .then( tasks => {
+                    res.status(200).json(tasks)
+                })
+                .catch(err => next(err))
         })
         .catch(err => next(err))
 });
 
 router.post('/project/:id', (req, res, next) => {
     
-    const { name, description, accountable, responsible } = req.body
+    const { name, description, accountable, responsible, projects } = req.body
     const projectId = req.params.id
 
-    Task.create( { name, description, accountable, responsible, projectId } )
+    Task.create( { name, description, accountable, responsible, projects } )
         .then( createdTask => res.status(201).json(createdTask))
         .catch(err => next(err))
 });

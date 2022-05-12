@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Project = require("../models/Project")
+const Status = require("../models/Status")
 
 router.get('/', (req, res, next) => {
     const userId = req.payload._id
@@ -11,21 +12,37 @@ router.get('/', (req, res, next) => {
         .catch(err => next(err))
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     const currentUserId = req.payload._id
     
     const { name, description } = req.body
     const admins = [currentUserId]
     const members = [currentUserId]
+    const statusColumns = []
+    try {
+        await Status.find({isDefault: true})
+            .then( statusses => {
+                console.log({statusses});
+                statusses.forEach(status => {statusColumns.push(String(status._id))})
+            })
+            .catch(err => next(err))
+        console.log({statusColumns});
+        Project.create({ name, description, admins, members, statusColumns })
+            .then( createdProject => res.status(201).json(createdProject))
+            .catch(err => next(err))
+    }
+    catch(err) {next(err)}
 
-    Project.create({ name, description, admins, members })
-        .then( createdProject => res.status(201).json(createdProject))
-        .catch(err => next(err))
+
 });
 
 router.get('/:id', (req, res, next) => {
     const projectId = req.params.id
+    console.log('project id route is triggered');
     Project.findById(projectId)
+        .populate('admins')
+        .populate('members')
+        .populate('statusColumns')
         .then( project => {
             res.status(200).json(project)
         })

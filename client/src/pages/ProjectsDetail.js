@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import CreateTask from '../components/CreateTask'
 import TasksAllProjects from '../components/TasksAllProjects'
 
 const ProjectsDetail = () => {
@@ -20,7 +19,6 @@ const ProjectsDetail = () => {
     return (
         <>
             <TasksAllProjects getAllTasks={getAllTasks} tasks={tasks} />
-            <CreateTask getAllTasks={getAllTasks} />
         </>
   )
 }

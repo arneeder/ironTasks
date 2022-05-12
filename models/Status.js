@@ -6,6 +6,10 @@ const statusSchema = new Schema(
         cluster: {
             type: String,
             enum: ['not started', 'in progress', 'completed'],
+        },
+        isDefault: {
+            type: Boolean,
+            default: false
         }
     },
     {

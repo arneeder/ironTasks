@@ -22,7 +22,7 @@ const projectSchema = new Schema(
     statusColumns: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Staus'
+            ref: 'Status'
         }
     ],
     parentProject: {

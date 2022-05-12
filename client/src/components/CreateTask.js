@@ -1,20 +1,47 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
-const CreateTask = () => {
-
+const CreateTask = props => {
+    
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
     const [responsible, setResponsible] = useState('')
+    const [status, setStatus] = useState('')
+
     
-    const handleSubmit = () => {
-        //todo
+    const handleSubmit = e => {
+        e.preventDefault()
+        const projects = [{project: props.id, status: status}]
+        const requestBody = { name, description, accountable, responsible, projects }
+        console.log({requestBody});
+        postNewTask(requestBody)
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
-    const handleAccountable = e => setAccountable(() => e.target.value)
+    const handleAccountable = e => {
+        setAccountable(() => e.target.value)
+    } 
     const handleResponsible = e => setResponsible(() => e.target.value)
+    const handleStaus = e => setStatus(() => e.target.value)
+
+    const postNewTask = requestBody => {
+        axios.post(`/api/tasks/project/${props.id}`, requestBody, { headers: { Authorization: `Bearer ${props.storedToken}` } })
+            .then( task => {
+                setName( () => '' )
+                setDescription( () => '' )
+                setAccountable( () => '' )
+                setResponsible( () => '' )
+                setStatus( () => '' )
+            })
+            .catch(error => console.log(error))
+    }
+
+    useEffect(() => {
+        props.getProjectMembers()
+        props.getAvailableStatus()
+    }, [])
     
     return (
         <>
@@ -27,15 +54,35 @@ const CreateTask = () => {
 
                 <label htmlFor="accountable">Accountable: </label>
                 <select value={accountable} onChange={handleAccountable} >
-                    <option>die option tags müssen aus map über props kommen</option>
+                <option>--choose--</option>
+                    {
+                        props.projectMembers.map( projectMember => (
+                            <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
+                        ))
+                    }
                 </select>
 
                 <label htmlFor="responsible">Responsible: </label>
                 <select value={responsible} onChange={handleResponsible}>
-                    <option>die option tags müssen aus map über props kommen</option>
+                <option>--choose--</option>
+                    {
+                        props.projectMembers.map( projectMember => (
+                            <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
+                        ))
+                    }
                 </select>
 
-                <Button variant="primary" type="submit"></Button>
+                <label htmlFor="status">Status: </label>
+                <select value={status} onChange={handleStaus}>
+                <option>--choose--</option>
+                    {
+                        props.availableStatusses.map( status => (
+                            <option key={status.name} value={status._id}>{status.name}</option>
+                        ))
+                    }
+                </select>
+
+                <Button variant="primary" type="submit">Create Task</Button>
             </form>
         </>
   )

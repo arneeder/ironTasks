@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 
 const TasksAllProjects = props => {

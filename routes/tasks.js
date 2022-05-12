@@ -24,8 +24,29 @@ router.get('/', (req, res, next) => {
         .catch(err => next(err))
 });
 
-router.post('/', (req, res, next) => {
+// router.post('/', (req, res, next) => {
     
+// });
+
+router.get('/project/:id', (req, res, next) => {
+    
+    const projectId = req.params.id
+
+    Project.findById(projectId)
+        .then( project => {
+            Task.find({projects: project._id})
+        })
+        .catch(err => next(err))
+});
+
+router.post('/project/:id', (req, res, next) => {
+    
+    const { name, description, accountable, responsible } = req.body
+    const projectId = req.params.id
+
+    Task.create( { name, description, accountable, responsible, projectId } )
+        .then( createdTask => res.status(201).json(createdTask))
+        .catch(err => next(err))
 });
 
 module.exports = router;

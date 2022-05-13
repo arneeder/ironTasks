@@ -11,14 +11,13 @@ const TasksOneProject = () => {
         getAvailableStatus()
     }, [])
 
+    console.log({availableStatusses});
     return (
         <div className='container'>
             {
                 availableStatusses.map( status => (
-                    <StatusColumn key={status._id} status={status} />
+                    <StatusColumn key={status.status._id} status={status.status} />
                 ))
-
-
             }
         </div>
     )

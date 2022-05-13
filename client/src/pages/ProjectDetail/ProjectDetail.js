@@ -48,7 +48,18 @@ const ProjectDetail = () => {
         getAvailableStatus,
         availableStatusses
     }
-    const onDragEnd = {
+    const onDragEnd = result => {
+
+        const {destination, source, draggableId} = result
+        console.log({destination, source, draggableId})
+
+        if(!destination) {
+            return
+        }
+        if(destination.droppableId === source.destination && destination.index === source.index) {
+            return
+        }
+
         
     }
     

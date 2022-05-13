@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import TaskContext from '../../context/task';
 import { useParams } from 'react-router-dom';
-import ProjectCreate from '../../components/ProjectCreate/ProjectCreate';
+import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
 
@@ -30,6 +30,7 @@ const ProjectDetail = () => {
     const getAvailableStatus = () => {
         axios.get(`/api/status/project/${id}`)
             .then( statusses => {
+                console.log({statusses});
                 setAvailableStatusses( () => statusses.data )
             })
             .catch(error => console.log(error))
@@ -50,17 +51,20 @@ const ProjectDetail = () => {
     }
     const onDragEnd = result => {
 
-        const {destination, source, draggableId} = result
-        console.log({destination, source, draggableId})
+        console.log('on drag end is executed');
 
-        if(!destination) {
-            return
-        }
-        if(destination.droppableId === source.destination && destination.index === source.index) {
-            return
-        }
+        // const {destination, source, draggableId} = result
+        // console.log({destination, source, draggableId})
 
-        
+        // if(!destination) {
+        //     return
+        // }
+        // if(destination.droppableId === source.destination && destination.index === source.index) {
+        //     return
+        // }
+
+        // const start = state.columns[source.droppableId]
+        // const finish = state.columns[destination.droppableId]
     }
     
     return (
@@ -68,7 +72,7 @@ const ProjectDetail = () => {
             <DragDropContext onDragEnd={onDragEnd}>
                 <TaskContext.Provider value={contextObject}
                 >
-                    <ProjectCreate 
+                    <TaskCreate 
                         getProjectMembers={getProjectMembers}
                         projectMembers={projectMembers}
                         storedToken={storedToken}

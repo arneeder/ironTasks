@@ -13,27 +13,28 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
+    
     const currentUserId = req.payload._id
     
     const { name, description } = req.body
     const admins = [currentUserId]
     const members = [currentUserId]
-    const statusColumns = []
+    const tasksByStatus = []
     try {
         await Status.find({isDefault: true})
             .then( statusses => {
-                console.log({statusses});
-                statusses.forEach(status => {statusColumns.push(String(status._id))})
+
+                statusses.forEach(status => {tasksByStatus.push({
+                    status: String(status._id),
+                    tasks: []
+                })})
             })
             .catch(err => next(err))
-        console.log({statusColumns});
-        Project.create({ name, description, admins, members, statusColumns })
+        Project.create({ name, description, admins, members, tasksByStatus })
             .then( createdProject => res.status(201).json(createdProject))
             .catch(err => next(err))
     }
     catch(err) {next(err)}
-
-
 });
 
 router.get('/:id', (req, res, next) => {
@@ -42,7 +43,7 @@ router.get('/:id', (req, res, next) => {
     Project.findById(projectId)
         .populate('admins')
         .populate('members')
-        .populate('statusColumns')
+        .populate('tasksByStatus')
         .then( project => {
             res.status(200).json(project)
         })

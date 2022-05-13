@@ -22,8 +22,14 @@ router.get('/project/:id', (req, res, next) => {
     const projectId = req.params.id
 
     Project.findById(projectId)
-        .populate('statusColumns')
-        .then( project => res.status(200).json(project.statusColumns))
+        .populate({
+            path: 'tasksByStatus',
+            populate: {
+                path: 'status',
+                model: Status
+            }
+        })
+        .then( project => res.status(200).json(project.tasksByStatus))
         .catch(err => next(err))
 });
 

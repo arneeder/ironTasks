@@ -16,7 +16,6 @@ const CreateTask = props => {
         e.preventDefault()
         const projects = [{project: props.id, status: status}]
         const requestBody = { name, description, accountable, responsible, projects }
-        console.log({requestBody});
         postNewTask(requestBody)
     }
     const handleName = e => setName(() => e.target.value)
@@ -78,7 +77,7 @@ const CreateTask = props => {
                 <option>--choose--</option>
                     {
                         props.availableStatusses.map( status => (
-                            <option key={status.name} value={status._id}>{status.name}</option>
+                            <option key={status.status._id} value={status.status._id}>{status.status.name}</option>
                         ))
                     }
                 </select>

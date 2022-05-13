@@ -8,7 +8,6 @@ const TasksOneProject = () => {
     const { getAvailableStatus, availableStatusses } = useContext(TaskContext)
 
     useEffect(() => {
-        // getTasks()
         getAvailableStatus()
     }, [])
 

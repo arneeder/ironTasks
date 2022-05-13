@@ -12,11 +12,6 @@ const TasksOneProject = () => {
         getAvailableStatus()
     }, [])
 
-    // get statusses
-    // make column component
-    // map column component
-    // in column component -> map tasks
-    // start drag and drop somewhere
     return (
         <div className='container'>
             {

@@ -1,14 +1,13 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import TaskContext from '../../context/task'
-import { useParams } from 'react-router-dom'
-import ProjectCreate from '../../components/ProjectCreate/ProjectCreate'
-import TasksOneProject from '../../components/TasksOneProject/TasksOneProject'
+import axios from 'axios';
+import React, { useState } from 'react';
+import TaskContext from '../../context/task';
+import { useParams } from 'react-router-dom';
+import ProjectCreate from '../../components/ProjectCreate/ProjectCreate';
+import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 const ProjectDetail = () => {
     
-    // find this project
-    // get all members in arr -> pass this arr to CreateTask
     const storedToken = localStorage.getItem('authToken')
     const { id } = useParams()
 
@@ -43,35 +42,32 @@ const ProjectDetail = () => {
             .catch(error => console.log(error))
     }
     const contextObject = {
+        projectId: id,
         getTasks,
         tasks,
         getAvailableStatus,
         availableStatusses
     }
+    const onDragEnd = {
+        
+    }
     
     return (
         <>
-            <TaskContext.Provider value={contextObject}
-                // getTasks={getTasks}
-                // tasks={tasks}
-                // getAvailableStatus={getAvailableStatus}
-                // availableStatusses={availableStatusses}
-            >
-                <ProjectCreate 
-                    getProjectMembers={getProjectMembers}
-                    projectMembers={projectMembers}
-                    storedToken={storedToken}
-                    id={id}
-                    getAvailableStatus={getAvailableStatus}
-                    availableStatusses={availableStatusses}
-                />
-                <TasksOneProject
-                    // getTasks={getTasks}
-                    // tasks={tasks}
-                    // getAvailableStatus={getAvailableStatus}
-                    // availableStatusses={availableStatusses}
-                />
-             </TaskContext.Provider>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <TaskContext.Provider value={contextObject}
+                >
+                    <ProjectCreate 
+                        getProjectMembers={getProjectMembers}
+                        projectMembers={projectMembers}
+                        storedToken={storedToken}
+                        id={id}
+                        getAvailableStatus={getAvailableStatus}
+                        availableStatusses={availableStatusses}
+                    />
+                    <TasksOneProject />
+                </TaskContext.Provider>
+             </DragDropContext>
         </>
     )
 }

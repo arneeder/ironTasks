@@ -1,10 +1,13 @@
 import './index.css'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import TaskContext from '../../context/task';
 import Button from 'react-bootstrap/Button';
 
-const CreateTask = props => {
+const CreateTask = () => {
     
+    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses } = useContext(TaskContext)
+
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
@@ -14,7 +17,7 @@ const CreateTask = props => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        const projects = [{project: props.id, status: status}]
+        const projects = [{project: projectId, status: status}]
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
     }
@@ -27,7 +30,7 @@ const CreateTask = props => {
     const handleStaus = e => setStatus(() => e.target.value)
 
     const postNewTask = requestBody => {
-        axios.post(`/api/tasks/project/${props.id}`, requestBody, { headers: { Authorization: `Bearer ${props.storedToken}` } })
+        axios.post(`/api/tasks/project/${projectId}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( task => {
                 setName( () => '' )
                 setDescription( () => '' )
@@ -39,8 +42,8 @@ const CreateTask = props => {
     }
 
     useEffect(() => {
-        props.getProjectMembers()
-        props.getAvailableStatus()
+        getProjectMembers()
+        getAvailableStatus()
     }, [])
     
     return (
@@ -56,7 +59,7 @@ const CreateTask = props => {
                 <select value={accountable} onChange={handleAccountable} >
                 <option>--choose--</option>
                     {
-                        props.projectMembers.map( projectMember => (
+                        projectMembers.map( projectMember => (
                             <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
                         ))
                     }
@@ -66,7 +69,7 @@ const CreateTask = props => {
                 <select value={responsible} onChange={handleResponsible}>
                 <option>--choose--</option>
                     {
-                        props.projectMembers.map( projectMember => (
+                        projectMembers.map( projectMember => (
                             <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
                         ))
                     }
@@ -76,7 +79,7 @@ const CreateTask = props => {
                 <select value={status} onChange={handleStaus}>
                 <option>--choose--</option>
                     {
-                        props.availableStatusses.map( status => (
+                        availableStatusses.map( status => (
                             <option key={status.status._id} value={status.status._id}>{status.status.name}</option>
                         ))
                     }

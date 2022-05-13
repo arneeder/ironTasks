@@ -11,7 +11,6 @@ const TasksOneProject = () => {
         getAvailableStatus()
     }, [])
 
-    console.log({availableStatusses});
     return (
         <div className='container'>
             {

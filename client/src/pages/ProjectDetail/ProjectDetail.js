@@ -47,24 +47,27 @@ const ProjectDetail = () => {
         getTasks,
         tasks,
         getAvailableStatus,
-        availableStatusses
+        availableStatusses,
+        storedToken,
+        getProjectMembers,
+        projectMembers
     }
     const onDragEnd = result => {
 
         console.log('on drag end is executed');
 
-        // const {destination, source, draggableId} = result
-        // console.log({destination, source, draggableId})
+        const {destination, source, draggableId} = result
+        console.log({destination, source, draggableId})
 
-        // if(!destination) {
-        //     return
-        // }
-        // if(destination.droppableId === source.destination && destination.index === source.index) {
-        //     return
-        // }
+        if(!destination) {
+            return
+        }
+        if(destination.droppableId === source.destination && destination.index === source.index) {
+            return
+        }
 
-        // const start = state.columns[source.droppableId]
-        // const finish = state.columns[destination.droppableId]
+        const start = 1 // get array with all tasks in column
+        const finish = 1 // get array with all tasks in column
     }
     
     return (

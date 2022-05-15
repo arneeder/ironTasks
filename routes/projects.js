@@ -44,7 +44,21 @@ router.get('/:id', (req, res, next) => {
     Project.findById(projectId)
         .populate('admins')
         .populate('members')
-        .populate('tasksByStatus')
+        // .populate('tasksByStatus')
+        .populate({
+            path: 'tasksByStatus',
+            populate: {
+                path: 'status',
+                model: 'Status'
+            }
+        })
+        .populate({
+            path: 'tasksByStatus',
+            populate: {
+                path: 'tasks',
+                model: 'Task'
+            }
+        })
         .then( project => {
             res.status(200).json(project)
         })

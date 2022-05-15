@@ -44,7 +44,6 @@ router.get('/:id', (req, res, next) => {
     Project.findById(projectId)
         .populate('admins')
         .populate('members')
-        // .populate('tasksByStatus')
         .populate({
             path: 'tasksByStatus',
             populate: {

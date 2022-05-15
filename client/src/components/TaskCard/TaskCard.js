@@ -13,16 +13,16 @@ const TaskCard = props => {
                         //isDragging={snapshot.isDragging}
                 >
                     <div>
-                        <h4>{props.task.name}</h4>
-                        <p>{props.task.description}</p>
+                        <h4>{props.task?.name}</h4>
+                        <p>{props.task?.description}</p>
                         <div className="assigned">
                             <div className="one-assignment">
                                 <p><strong>Accountable: </strong></p>
-                                <p>{props.task.accountable}</p>
+                                <p>{props.task?.accountable}</p>
                             </div>
                             <div className="one-assignment">
                                 <p><strong>Responsible: </strong></p>
-                                <p>{props.task.responsible}</p>
+                                <p>{props.task?.responsible}</p>
                             </div>
                             <div className="responsible"></div>
                         </div>

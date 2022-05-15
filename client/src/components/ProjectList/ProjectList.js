@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 
-const ProjectList = props => {
+const ProjectList = () => {
     
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects, myProjects } = useContext(MyProjectsContext)

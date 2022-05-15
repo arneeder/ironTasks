@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 const CreateTask = () => {
     
-    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses } = useContext(TaskContext)
+    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses, getTasks, project, setProject } = useContext(TaskContext)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -20,6 +20,7 @@ const CreateTask = () => {
         const projects = [{project: projectId, status: status}]
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
+        getTasks()
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
@@ -29,15 +30,44 @@ const CreateTask = () => {
     const handleResponsible = e => setResponsible(() => e.target.value)
     const handleStaus = e => setStatus(() => e.target.value)
 
+
+
     const postNewTask = requestBody => {
         axios.post(`/api/tasks/project/${projectId}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( task => {
+            .then( task => {                
+                const taskId = task.data._id
+                console.log({taskId}, {status});
+                
+                //updateProjectState(status, taskId)
+                const updateParameter = {
+                    oldProject: project,
+                    statusId: status,
+                    taskId: taskId
+                }
+
+                axios.put(`/api/projects/${projectId}`, updateParameter, { headers: { Authorization: `Bearer ${storedToken}` } })
+                    .then( project => setProject( () => project))
+                    .catch(error => console.log(error))
+
                 setName( () => '' )
                 setDescription( () => '' )
                 setAccountable( () => '' )
                 setResponsible( () => '' )
                 setStatus( () => '' )
             })
+            .catch(error => console.log(error))
+    }
+    const updateProjectState = (statusId, taskId) => {
+        const projectCopy = JSON.parse(JSON.stringify(project))
+        console.log('TASKS: ', projectCopy.tasksByStatus)
+        projectCopy.tasksByStatus.find( statusCol => statusCol.status === statusId).tasks.push(taskId)
+        console.log('STATUS_ID: ', statusId);
+        updateProject(projectCopy)
+        console.log({projectCopy});
+    }
+    const updateProject = updatedProject => {
+        axios.put(`/api/projects/${projectId}`, updatedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
+            .then(()=> setProject(() => updatedProject))
             .catch(error => console.log(error))
     }
 

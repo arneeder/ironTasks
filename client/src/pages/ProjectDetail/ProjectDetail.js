@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskContext from '../../context/task';
 import { useParams } from 'react-router-dom';
 import TaskCreate from '../../components/TaskCreate/TaskCreate';
@@ -14,6 +14,7 @@ const ProjectDetail = () => {
     const [projectMembers, setProjectMembers] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [tasks, setTasks] = useState([])
+    const [project, setProject] = useState([])
     
     const getProjectMembers = () => {
         const allProjectMembers = []
@@ -26,7 +27,6 @@ const ProjectDetail = () => {
             })
             .catch(error => console.log(error))
     }
-
     const getAvailableStatus = () => {
         axios.get(`/api/status/project/${id}`)
             .then( statusses => {
@@ -38,7 +38,15 @@ const ProjectDetail = () => {
     const getTasks = () => {
         axios.get(`/api/tasks/project/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( tasks => {
+                console.log('RESULT GET TASKS: ', tasks);
                 setTasks(() => tasks.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const getProject = () => {
+        axios.get(`/api/projects/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+            .then( project => {
+                setProject(() => project.data)
             })
             .catch(error => console.log(error))
     }
@@ -50,14 +58,15 @@ const ProjectDetail = () => {
         availableStatusses,
         storedToken,
         getProjectMembers,
-        projectMembers
+        projectMembers,
+        project,
+        setProject
     }
     const onDragEnd = result => {
 
-        console.log('on drag end is executed');
+        getProject()
 
         const {destination, source, draggableId} = result
-        console.log({destination, source, draggableId})
 
         if(!destination) {
             return
@@ -66,10 +75,14 @@ const ProjectDetail = () => {
             return
         }
 
+        console.log({project});
+
         const start = 1 // get array with all tasks in column
         const finish = 1 // get array with all tasks in column
     }
-    
+
+    useEffect(() => {getProject()}, [])
+
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>

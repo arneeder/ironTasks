@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const Project = require("../models/Project")
-const Status = require("../models/Status")
+const mongoose = require('mongoose');
+const Project = require("../models/Project");
+const Status = require("../models/Status");
 
 router.get('/', (req, res, next) => {
     const userId = req.payload._id
@@ -58,5 +59,21 @@ router.delete('/:id', (req, res, next) => {
         })
         .catch(err => next(err))
 });
+
+router.put('/:id', (req, res, next) => {
+    const { oldProject, statusId, taskId } = req.body
+    const taskObject = mongoose.Types.ObjectId(taskId)
+
+    oldProject.tasksByStatus.find( statusCol => String(statusCol.status) === String(statusId)).tasks.push(taskObject)
+
+    Project.findByIdAndUpdate(req.params.id,
+        oldProject
+        , { new: true })
+        .then( project =>
+            res.status(200).json(project) 
+        )
+        .catch(err => next(err))
+});
+
 
 module.exports = router;

@@ -4,7 +4,7 @@ const Project = require("../models/Project");
 
 router.get('/', (req, res, next) => {
     Status.find()
-        .then( statusses => res.status(200).json(projects))
+        .then( statusses => res.status(200).json(statusses))
         .catch(err => next(err))
 });
 

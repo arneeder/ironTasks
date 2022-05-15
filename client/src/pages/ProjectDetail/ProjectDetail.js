@@ -28,7 +28,7 @@ const ProjectDetail = () => {
             .catch(error => console.log(error))
     }
     const getAvailableStatus = () => {
-        axios.get(`/api/status/project/${id}`)
+        axios.get(`/api/status/project/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( statusses => {
                 console.log({statusses});
                 setAvailableStatusses( () => statusses.data )
@@ -77,8 +77,24 @@ const ProjectDetail = () => {
 
         console.log({project});
 
-        const start = 1 // get array with all tasks in column
-        const finish = 1 // get array with all tasks in column
+        const startTaskArr = project.tasksByStatus.find(column => column.status === source.droppableId).tasks
+        const finishTaskArr = project.tasksByStatus.find(column => column.status === destination.droppableId).tasks
+
+        const startColumn = source.droppableId
+        const finishColumn = destination.droppableId
+
+        // const startIndex = source.droppableIndex
+        // const finishIndex = destination.droppableIndex
+
+        if (startColumn === finishColumn) {
+            console.log({startTaskArr});
+            const newStartTaskArr = Array.from(startTaskArr)
+            newStartTaskArr.splice(source.index, 1)
+            newStartTaskArr.splice(destination.index, 0, draggableId)
+            console.log({newStartTaskArr});
+
+        }
+
     }
 
     useEffect(() => {getProject()}, [])

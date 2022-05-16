@@ -16,7 +16,7 @@ const TaskCard = props => {
                     <div>
                         <h4>{props.task?.name}</h4>
                         <p>{props.task?.description}</p>
-                        <div className="assigned">
+                        {/* <div className="assigned">
                             <div className="one-assignment">
                                 <p><strong>Accountable: </strong></p>
                                 <p>{props.task?.accountable}</p>
@@ -26,7 +26,7 @@ const TaskCard = props => {
                                 <p>{props.task?.responsible}</p>
                             </div>
                             <div className="responsible"></div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 )}

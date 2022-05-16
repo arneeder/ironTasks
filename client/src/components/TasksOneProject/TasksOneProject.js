@@ -7,7 +7,7 @@ import StatusColumn from '../StatusColumn/StatusColumn';
 const TasksOneProject = () => {
 
     const { id } = useParams()
-    const { getProject, availableStatusses, tasks } = useContext(ProjectContext)
+    const { getProject, tasks } = useContext(ProjectContext)
 
 
     useEffect(() => {

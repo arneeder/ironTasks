@@ -59,7 +59,7 @@ const CreateTask = () => {
 
     useEffect(() => {
         getProject(id)
-    }, [])
+    },[])
     
     return (
         <>

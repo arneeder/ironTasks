@@ -73,6 +73,20 @@ router.delete('/:id', (req, res, next) => {
         .catch(err => next(err))
 });
 
+router.put('/state/:id', (req, res, next) => {
+    // console.log(req.body);
+    const projectCopy = req.body
+    
+    Project.findByIdAndUpdate(req.params.id,
+        projectCopy
+        , { new: true })
+        .then( project => {
+            res.status(200).json(project) 
+        }
+        )
+        .catch(err => next(err))
+});
+
 router.put('/:id', (req, res, next) => {
     const { oldProject, statusId, taskId } = req.body
     const taskObject = mongoose.Types.ObjectId(taskId)

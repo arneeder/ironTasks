@@ -11,17 +11,23 @@ const ProjectWrapper = props => {
     const storedToken = localStorage.getItem('authToken')
     
     const [project, setProject] = useState([])
+    const [availableStatusses, setAvailableStatusses] = useState([])
     
     const getProject = () => {
       axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
           .then( project => {
+            const availableStatusses = []
+            project.tasksByStatus.forEach(statusWithTasks => {
+                availableStatusses.push(statusWithTasks.status)
+            })
+            setAvailableStatusses(() => availableStatusses)
             setProject(() => project.data)
           })
           .catch(error => console.log(error))
     }
 
     return(
-        <ProjectContext.Provider value={{ project, setProject,  getProject }}>
+        <ProjectContext.Provider value={{ project, availableStatusses,  getProject }}>
 			{props.children}
 		</ProjectContext.Provider>
     )

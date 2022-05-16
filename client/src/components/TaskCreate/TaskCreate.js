@@ -24,9 +24,7 @@ const CreateTask = () => {
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
-    const handleAccountable = e => {
-        setAccountable(() => e.target.value)
-    } 
+    const handleAccountable = e => setAccountable(() => e.target.value)
     const handleResponsible = e => setResponsible(() => e.target.value)
     const handleStaus = e => setStatus(() => e.target.value)
 
@@ -55,19 +53,6 @@ const CreateTask = () => {
                 setResponsible( () => '' )
                 setStatus( () => '' )
             })
-            .catch(error => console.log(error))
-    }
-    const updateProjectState = (statusId, taskId) => {
-        const projectCopy = JSON.parse(JSON.stringify(project))
-        console.log('TASKS: ', projectCopy.tasksByStatus)
-        projectCopy.tasksByStatus.find( statusCol => statusCol.status === statusId).tasks.push(taskId)
-        console.log('STATUS_ID: ', statusId);
-        updateProject(projectCopy)
-        console.log({projectCopy});
-    }
-    const updateProject = updatedProject => {
-        axios.put(`/api/projects/${projectId}`, updatedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then(()=> setProject(() => updatedProject))
             .catch(error => console.log(error))
     }
 

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import TaskContext from '../../context/task';
-import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';

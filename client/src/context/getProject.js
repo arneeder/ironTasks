@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ProjectContext = React.createContext()
@@ -10,14 +9,21 @@ function ProjectProviderWrapper(props) {
     
     const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
+    const [projectMembers, setProjectMembers] = useState([])
     
-    const getProject = (projectId) => {
+    const getProject = projectId => {
       axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
           .then( project => {
+            console.log('projectFromApiCall: ', project.data);
             const availableStatusses = []
-            project.tasksByStatus.forEach(statusWithTasks => {
+            project.data.tasksByStatus.forEach(statusWithTasks => {
                 availableStatusses.push(statusWithTasks.status)
             })
+            const projectMembers = []
+            project.data.members.forEach(projectMember => {
+                projectMembers.push(projectMember)
+            })
+            setProjectMembers (() => projectMembers)
             setAvailableStatusses(() => availableStatusses)
             setProject(() => project.data)
           })
@@ -25,7 +31,7 @@ function ProjectProviderWrapper(props) {
     }
 
     return(
-        <ProjectContext.Provider value={{ getProject, project, availableStatusses }}>
+        <ProjectContext.Provider value={{ getProject, project, setProject, availableStatusses, projectMembers }}>
 			{props.children}
 		</ProjectContext.Provider>
     )

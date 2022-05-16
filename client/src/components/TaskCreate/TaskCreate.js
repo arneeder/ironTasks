@@ -2,16 +2,14 @@ import './index.css'
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import TaskContext from '../../context/task';
 import { ProjectContext } from '../../context/getProject';
 import Button from 'react-bootstrap/Button';
 
 const CreateTask = () => {
     
-    //
     const { id } = useParams()
-    const { getProject, project, testVal } = useContext(ProjectContext)
-    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses, getTasks, setProject } = useContext(TaskContext)
+    const storedToken = localStorage.getItem('authToken')
+    const { getProject, project, setProject, availableStatusses, projectMembers } = useContext(ProjectContext)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -22,11 +20,10 @@ const CreateTask = () => {
     
     const handleSubmit = e => {
         e.preventDefault()
-        const projects = [{project: projectId, status: status}]
+        console.log({project})
+        const projects = [{project: id, status: status}]
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
-        getTasks()
-        //
         getProject(id)
     }
     const handleName = e => setName(() => e.target.value)
@@ -36,19 +33,18 @@ const CreateTask = () => {
     const handleStaus = e => setStatus(() => e.target.value)
 
     const postNewTask = requestBody => {
-        axios.post(`/api/tasks/project/${projectId}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
+        axios.post(`/api/tasks/project/${id}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( task => {                
                 const taskId = task.data._id
                 console.log({taskId}, {status});
                 
-                //updateProjectState(status, taskId)
                 const updateParameter = {
                     oldProject: project,
                     statusId: status,
                     taskId: taskId
                 }
 
-                axios.put(`/api/projects/${projectId}`, updateParameter, { headers: { Authorization: `Bearer ${storedToken}` } })
+                axios.put(`/api/projects/${id}`, updateParameter, { headers: { Authorization: `Bearer ${storedToken}` } })
                     .then( project => setProject( () => project))
                     .catch(error => console.log(error))
 
@@ -62,15 +58,11 @@ const CreateTask = () => {
     }
 
     useEffect(() => {
-        getProjectMembers()
-        getAvailableStatus()
         getProject(id)
-        console.log({id});
     }, [])
     
     return (
         <>
-            <p>{testVal}</p>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
                 <input type="text" value={name} onChange={handleName} />
@@ -103,7 +95,7 @@ const CreateTask = () => {
                 <option>--choose--</option>
                     {
                         availableStatusses.map( status => (
-                            <option key={status.status._id} value={status.status._id}>{status.status.name}</option>
+                            <option key={status._id} value={status._id}>{status.name}</option>
                         ))
                     }
                 </select>

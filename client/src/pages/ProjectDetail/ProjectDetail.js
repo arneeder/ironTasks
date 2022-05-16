@@ -24,7 +24,7 @@ const ProjectDetail = () => {
         }
 
         const startTaskArr = project.tasksByStatus.find(column => column.status._id === source.droppableId).tasks
-        // const finishTaskArr = project.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks
+        const finishTaskArr = project.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks
 
         const startColumn = source.droppableId
         const finishColumn = destination.droppableId
@@ -33,12 +33,12 @@ const ProjectDetail = () => {
         // const finishIndex = destination.droppableIndex
 
         if (startColumn === finishColumn) {
-            const adjustedTaskArr = Array.from(startTaskArr)
-            const draggedElement = adjustedTaskArr.splice(source.index, 1)
-            adjustedTaskArr.splice(destination.index, 0, draggedElement[0])
+            const startTaskArrAdjusted = Array.from(startTaskArr)
+            const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
+            startTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
             // pass Object im state an
             const projectCopy = JSON.parse(JSON.stringify(project))
-            projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = adjustedTaskArr
+            projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
 
             console.log('State: ', project.tasksByStatus[0]);
             console.log('Copy: ', projectCopy.tasksByStatus[0]);
@@ -48,6 +48,21 @@ const ProjectDetail = () => {
             .catch(error => console.log(error))
             return;
         }
+
+        const startTaskArrAdjusted = Array.from(startTaskArr)
+        const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
+        
+        const finishTaskArrAdjusted = Array.from(finishTaskArr)
+        finishTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
+
+        const projectCopy = JSON.parse(JSON.stringify(project))
+        projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
+        projectCopy.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks = finishTaskArrAdjusted
+
+        axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
+        .then( project => setProject( () => projectCopy))
+        .catch(error => console.log(error))
+        return;
 
     }
 

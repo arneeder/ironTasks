@@ -9,13 +9,14 @@ const CreateTask = () => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, project, setProject, availableStatusses, projectMembers } = useContext(ProjectContext)
+    const { getProject, availableStatusses, projectMembers } = useContext(ProjectContext)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
     const [responsible, setResponsible] = useState('')
     const [status, setStatus] = useState('')
+    const [project, setProject] = useState({})
 
     
     const handleSubmit = e => {

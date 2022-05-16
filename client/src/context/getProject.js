@@ -4,16 +4,14 @@ import axios from 'axios';
 
 const ProjectContext = React.createContext()
 
-const ProjectWrapper = props => {
-
-    const { projectId } = useParams()
+function ProjectProviderWrapper(props) {
     
     const storedToken = localStorage.getItem('authToken')
     
     const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     
-    const getProject = () => {
+    const getProject = (projectId) => {
       axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
           .then( project => {
             const availableStatusses = []
@@ -27,12 +25,12 @@ const ProjectWrapper = props => {
     }
 
     return(
-        <ProjectContext.Provider value={{ project, availableStatusses,  getProject }}>
+        <ProjectContext.Provider value={{ getProject, project, availableStatusses }}>
 			{props.children}
 		</ProjectContext.Provider>
     )
 }
 
 
-export { ProjectContext, ProjectWrapper }
+export { ProjectContext, ProjectProviderWrapper }
 

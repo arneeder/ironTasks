@@ -1,12 +1,17 @@
 import './index.css'
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import TaskContext from '../../context/task';
+import { ProjectContext } from '../../context/getProject';
 import Button from 'react-bootstrap/Button';
 
 const CreateTask = () => {
     
-    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses, getTasks, project, setProject } = useContext(TaskContext)
+    //
+    const { id } = useParams()
+    const { getProject, project, testVal } = useContext(ProjectContext)
+    const { projectId, storedToken, getAvailableStatus, getProjectMembers, projectMembers, availableStatusses, getTasks, setProject } = useContext(TaskContext)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -21,14 +26,14 @@ const CreateTask = () => {
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
         getTasks()
+        //
+        getProject(id)
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
     const handleAccountable = e => setAccountable(() => e.target.value)
     const handleResponsible = e => setResponsible(() => e.target.value)
     const handleStaus = e => setStatus(() => e.target.value)
-
-
 
     const postNewTask = requestBody => {
         axios.post(`/api/tasks/project/${projectId}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -59,10 +64,13 @@ const CreateTask = () => {
     useEffect(() => {
         getProjectMembers()
         getAvailableStatus()
+        getProject(id)
+        console.log({id});
     }, [])
     
     return (
         <>
+            <p>{testVal}</p>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
                 <input type="text" value={name} onChange={handleName} />

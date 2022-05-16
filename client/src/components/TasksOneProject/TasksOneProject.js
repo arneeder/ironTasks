@@ -1,7 +1,7 @@
 import './index.css'
 import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProjectContext } from '../../context/getProject';
+import ProjectContext from '../../context/getProject';
 import StatusColumn from '../StatusColumn/StatusColumn';
 
 const TasksOneProject = () => {

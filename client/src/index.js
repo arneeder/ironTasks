@@ -6,16 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProviderWrapper } from './context/auth';
 import { MyProjectsWrapper } from './context/getMyProjects';
-import { ProjectProviderWrapper } from './context/getProject';
+// import { ProjectProviderWrapper } from './context/getProject';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <AuthProviderWrapper>
       <MyProjectsWrapper>
-        <ProjectProviderWrapper>            
+        {/* <ProjectProviderWrapper>             */}
             <App />
-        </ProjectProviderWrapper>
+        {/* </ProjectProviderWrapper> */}
       </MyProjectsWrapper>
     </AuthProviderWrapper>
   </BrowserRouter>

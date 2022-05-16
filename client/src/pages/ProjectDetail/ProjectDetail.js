@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { ProjectContext } from '../../context/getProject';
+import React, { useState, useEffect, useContext } from 'react';
+import ProjectContext from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
@@ -8,9 +8,44 @@ import axios from 'axios';
 
 const ProjectDetail = () => {
     
-    const {getProject, project, setProject} = useContext(ProjectContext)
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
+
+    //Defining context values
+
+    const [project, setProject] = useState([])
+    const [availableStatusses, setAvailableStatusses] = useState([])
+    const [projectMembers, setProjectMembers] = useState([])
+    const [tasks, setTasks] = useState([])
+
+    const getProject = projectId => {
+        axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
+            .then( project => {
+              const availableStatusses = []
+              const projectMembers = []
+              const tasks = []
+              
+              project.data.tasksByStatus.forEach(statusWithTasks => {
+                  availableStatusses.push(statusWithTasks.status)
+              })
+              
+              project.data.members.forEach(projectMember => {
+                  projectMembers.push(projectMember)
+              })
+  
+              project.data.tasksByStatus.forEach(statusColumn => {
+                  tasks.push(statusColumn)
+              })
+  
+              setTasks(() => tasks)
+              setProjectMembers(() => projectMembers)
+              setAvailableStatusses(() => availableStatusses)
+              setProject(() => project.data)
+            })
+            .catch(error => console.log(error))
+      }
+
+    // Done with context values
 
     const onDragEnd = result => {
 
@@ -29,14 +64,11 @@ const ProjectDetail = () => {
         const startColumn = source.droppableId
         const finishColumn = destination.droppableId
 
-        // const startIndex = source.droppableIndex
-        // const finishIndex = destination.droppableIndex
-
         if (startColumn === finishColumn) {
             const startTaskArrAdjusted = Array.from(startTaskArr)
             const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
             startTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
-            // pass Object im state an
+            
             const projectCopy = JSON.parse(JSON.stringify(project))
             projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
 
@@ -71,10 +103,20 @@ const ProjectDetail = () => {
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
-                    
+                <ProjectContext.Provider value={{
+                    project,
+                    setProject,
+                    availableStatusses,
+                    setAvailableStatusses,
+                    projectMembers,
+                    setProjectMembers,
+                    tasks,
+                    setTasks,
+                    getProject
+                }}>
                     <TaskCreate/>
                     <TasksOneProject />
-
+                </ProjectContext.Provider>   
              </DragDropContext>
         </>
     )

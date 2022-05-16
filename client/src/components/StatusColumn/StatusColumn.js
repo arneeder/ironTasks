@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from '../TaskCard/TaskCard';
 
 const StatusColumn = props => {
-    console.log({props});
+
     return (
         
         <Droppable droppableId={props.status._id}>

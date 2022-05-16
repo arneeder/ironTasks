@@ -1,17 +1,10 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import './index.css'
 import { Droppable } from 'react-beautiful-dnd';
-import TaskContext from '../../context/task';
 import TaskCard from '../TaskCard/TaskCard';
 
 const StatusColumn = props => {
-
-    const { getTasks, tasks, projectId } = useContext(TaskContext)    
-
-    useEffect(() => {
-        getTasks()
-    }, [])
-
+    console.log({props});
     return (
         
         <Droppable droppableId={props.status._id}>
@@ -20,16 +13,11 @@ const StatusColumn = props => {
         <div className='staus-columns'
             ref={provided.innerRef}
             {...provided.droppableProps}
-            // isDraggingOver={snapshot.isDraggingOver}
         >
             
             <h3>{props.status.name}</h3>
             {
-                tasks
-                    .filter( task => {
-                        const projectStatus = task.projects.find( project => project.project === projectId)
-                        return projectStatus.status === props.status._id
-                    })
+                props.tasks
                     .map( (task, index) => (
                         <TaskCard key={task._id} task={task} index={index} />
                 ))

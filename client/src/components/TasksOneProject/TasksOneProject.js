@@ -1,21 +1,28 @@
 import './index.css'
 import React, { useEffect, useContext } from 'react';
-import TaskContext from '../../context/task';
+import { useParams } from 'react-router-dom';
+import { ProjectContext } from '../../context/getProject';
 import StatusColumn from '../StatusColumn/StatusColumn';
 
 const TasksOneProject = () => {
 
-    const { getAvailableStatus, availableStatusses } = useContext(TaskContext)
+    const { id } = useParams()
+    const { getProject, availableStatusses, tasks } = useContext(ProjectContext)
+
 
     useEffect(() => {
-        getAvailableStatus()
+        getProject(id)
     }, [])
 
     return (
         <div className='container'>
             {
-                availableStatusses.map( status => (
-                    <StatusColumn key={status.status._id} status={status.status} />
+                tasks.map( (taskColumn) => (
+                    <StatusColumn 
+                        key={taskColumn.status._id}
+                        status={taskColumn.status}
+                        tasks={taskColumn.tasks} 
+                        />
                 ))
             }
         </div>

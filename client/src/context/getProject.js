@@ -10,20 +10,29 @@ function ProjectProviderWrapper(props) {
     const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
+    const [tasks, setTasks] = useState([])
     
     const getProject = projectId => {
       axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
           .then( project => {
-            console.log('projectFromApiCall: ', project.data);
             const availableStatusses = []
+            const projectMembers = []
+            const tasks = []
+            
             project.data.tasksByStatus.forEach(statusWithTasks => {
                 availableStatusses.push(statusWithTasks.status)
             })
-            const projectMembers = []
+            
             project.data.members.forEach(projectMember => {
                 projectMembers.push(projectMember)
             })
-            setProjectMembers (() => projectMembers)
+
+            project.data.tasksByStatus.forEach(statusColumn => {
+                tasks.push(statusColumn)
+            })
+
+            setTasks(() => tasks)
+            setProjectMembers(() => projectMembers)
             setAvailableStatusses(() => availableStatusses)
             setProject(() => project.data)
           })
@@ -31,7 +40,7 @@ function ProjectProviderWrapper(props) {
     }
 
     return(
-        <ProjectContext.Provider value={{ getProject, project, setProject, availableStatusses, projectMembers }}>
+        <ProjectContext.Provider value={{ getProject, project, setProject, availableStatusses, projectMembers, tasks }}>
 			{props.children}
 		</ProjectContext.Provider>
     )

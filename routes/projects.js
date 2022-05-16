@@ -77,7 +77,7 @@ router.put('/:id', (req, res, next) => {
     const { oldProject, statusId, taskId } = req.body
     const taskObject = mongoose.Types.ObjectId(taskId)
 
-    oldProject.tasksByStatus.find( statusCol => String(statusCol.status) === String(statusId)).tasks.push(taskObject)
+    oldProject.tasksByStatus.find( statusCol => String(statusCol.status._id) === String(statusId)).tasks.push(taskObject)
 
     Project.findByIdAndUpdate(req.params.id,
         oldProject

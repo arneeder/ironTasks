@@ -3,6 +3,7 @@ import './index.css'
 import { Draggable } from 'react-beautiful-dnd';
 
 const TaskCard = props => {
+    // console.log({props});
     return (
         <Draggable draggableId={props.task._id} index={props.index}>
             {(provided, snapshot) => (

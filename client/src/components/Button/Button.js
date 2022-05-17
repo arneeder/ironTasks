@@ -13,7 +13,7 @@ const ButtonRound = props => {
     }
 
     return (
-        <button type='button' className={props.className} onClick={handleButton}>
+        <button type={props.type ? props.type : 'button'} className={props.className} onClick={handleButton}>
             { props.content }
         </button>
   )

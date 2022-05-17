@@ -55,7 +55,11 @@ router.get('/:id', (req, res, next) => {
     Task.findById(taskId)
         .populate('accountable')
         .populate('responsible')
-        .then( task => res.status(201).json(task) )
+        .then( task => {
+            console.log(task)
+            res.status(201).json(task)    
+            
+}       )
         .catch(err => next(err))
 });
 

@@ -19,7 +19,7 @@ const ProjectDetail = () => {
     const [tasks, setTasks] = useState([])
     const [taskCreate, setTaskCreate] = useState(false)
     const [taskDetail, setTaskDetail] = useState(false)
-    const [currentTaskId, setCurrentTaskId] = useState('')
+    const [currentTask, setCurrentTask] = useState('')
 
     const getProject = projectId => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
@@ -46,7 +46,15 @@ const ProjectDetail = () => {
               setProject(() => project.data)
             })
             .catch(error => console.log(error))
-      }
+    }
+    const getCurrentTask = currentTaskId => {
+        axios.get(`/api/tasks/${currentTaskId}`)
+                .then( taskFromDb => {
+                    setCurrentTask(() => taskFromDb.data)
+                    console.log(taskFromDb)
+                } )
+                .catch( err => console.log(err) )
+    }
 
     const onDragEnd = result => {
 
@@ -112,9 +120,9 @@ const ProjectDetail = () => {
                     taskCreate,
                     setTaskCreate,
                     taskDetail,
+                    currentTask,
                     setTaskDetail,
-                    currentTaskId,
-                    setCurrentTaskId
+                    getCurrentTask
                 }}> 
                     <Popup 
                         trigger={taskCreate}

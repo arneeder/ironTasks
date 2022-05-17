@@ -1,34 +1,28 @@
 import './index.css';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ProjectContext from '../../context/getProject';
-import axios from 'axios';
 
 const TaskDetail = () => {
 
-    const { currentTaskId } = useContext(ProjectContext)
-
-    const [task, setTask] = useState({})
+    const { currentTask } = useContext(ProjectContext)
     
-    axios.get(`/api/tasks/${currentTaskId}`)
-        .then( taskFromDb => setTask(taskFromDb) )
-        .catch( err => console.log(err) )
+    console.log(currentTask);
 
-    console.log(task);
     return (
         <>
-            <h2>{task.data.name}</h2>
+            <h2>{currentTask.name}</h2>
             <article>
                 <h4>Details: </h4>
-                <p>{task.data.description}</p>
+                <p>{currentTask.description}</p>
             </article>
-            <article>
+            {/* <article>
                 <h4>Accountable: </h4>
-                <p>{task.data.accountable.name}</p>
-            </article>
-            <article>
+                <p>{currentTask.accountable.name}</p>
+            </article> */}
+            {/* <article>
                 <h4>Responsible: </h4>
-                <p>{task.data.responsible.name}</p>
-            </article>
+                <p>{currentTask.responsible.name}</p>
+            </article> */}
 
         </>
     )

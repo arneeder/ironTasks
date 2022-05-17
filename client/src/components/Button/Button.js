@@ -4,11 +4,12 @@ import ProjectContext from '../../context/getProject';
 
 const ButtonRound = props => {
 
-    const { setCurrentTaskId } = useContext(ProjectContext)
+    const { getCurrentTask } = useContext(ProjectContext)
 
     const handleButton = () => {
         props.setTrigger(!props.trigger)
-        if(props.taskId) setCurrentTaskId(() => props.taskId)
+        console.log('BTN PARAMETER: ', props.taskId);
+        if(props.taskId) getCurrentTask( props.taskId )
     }
 
     return (

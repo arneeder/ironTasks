@@ -3,20 +3,19 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import ProjectContext from '../../context/getProject';
-import Button from 'react-bootstrap/Button';
 
 const CreateTask = () => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, availableStatusses, projectMembers } = useContext(ProjectContext)
+    const { getProject, project, setProject, availableStatusses, projectMembers } = useContext(ProjectContext)
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
     const [responsible, setResponsible] = useState('')
     const [status, setStatus] = useState('')
-    const [project, setProject] = useState({})
+    // const [project, setProject] = useState({})
 
     
     const handleSubmit = e => {
@@ -65,43 +64,53 @@ const CreateTask = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name: </label>
-                <input type="text" value={name} onChange={handleName} />
+                <div className="container-formfield">
+                    <label htmlFor="name">Name: </label>
+                    <input type="text" value={name} onChange={handleName} />
+                </div>
 
-                <label htmlFor="description">Description: </label>
-                <input type="text" value={description} onChange={handleDescription} />
+                <div className="container-formfield">
+                    <label htmlFor="description">Description: </label>
+                    <textarea cols="30" rows="1" value={description} onChange={handleDescription} />
+                </div>
 
-                <label htmlFor="accountable">Accountable: </label>
-                <select value={accountable} onChange={handleAccountable} >
-                <option>--choose--</option>
-                    {
-                        projectMembers.map( projectMember => (
-                            <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
-                        ))
-                    }
-                </select>
+                <div className="container-formfield">
+                    <label htmlFor="accountable">Accountable: </label>
+                    <select value={accountable} onChange={handleAccountable} >
+                    <option>--choose--</option>
+                        {
+                            projectMembers.map( projectMember => (
+                                <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
+                            ))
+                        }
+                    </select>
+                </div>
 
-                <label htmlFor="responsible">Responsible: </label>
-                <select value={responsible} onChange={handleResponsible}>
-                <option>--choose--</option>
-                    {
-                        projectMembers.map( projectMember => (
-                            <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
-                        ))
-                    }
-                </select>
+                <div className="container-formfield">
+                    <label htmlFor="responsible">Responsible: </label>
+                    <select value={responsible} onChange={handleResponsible}>
+                    <option>--choose--</option>
+                        {
+                            projectMembers.map( projectMember => (
+                                <option key={projectMember._id} value={projectMember._id}>{projectMember.name}</option>
+                            ))
+                        }
+                    </select>
+                </div>
 
-                <label htmlFor="status">Status: </label>
-                <select value={status} onChange={handleStaus}>
-                <option>--choose--</option>
-                    {
-                        availableStatusses.map( status => (
-                            <option key={status._id} value={status._id}>{status.name}</option>
-                        ))
-                    }
-                </select>
+                <div className="container-formfield">
+                    <label htmlFor="status">Status: </label>
+                    <select value={status} onChange={handleStaus}>
+                    <option>--choose--</option>
+                        {
+                            availableStatusses.map( status => (
+                                <option key={status._id} value={status._id}>{status.name}</option>
+                            ))
+                        }
+                    </select>
+                </div>
 
-                <Button variant="primary" type="submit">Create Task</Button>
+                <button type="submit">Create Task</button>
             </form>
         </>
   )

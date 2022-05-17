@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import ProjectContext from '../../context/getProject';
 import { useParams } from 'react-router-dom';
+import Popup from '../../components/Popup/Popup';
 import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -11,12 +12,11 @@ const ProjectDetail = () => {
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
 
-    //Defining context values
-
     const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])
+    const [popup, setPopup] = useState(false)
 
     const getProject = projectId => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
@@ -40,12 +40,11 @@ const ProjectDetail = () => {
               setTasks(() => tasks)
               setProjectMembers(() => projectMembers)
               setAvailableStatusses(() => availableStatusses)
+              console.log('new Project from getProject: ', project.data);
               setProject(() => project.data)
             })
             .catch(error => console.log(error))
       }
-
-    // Done with context values
 
     const onDragEnd = result => {
 
@@ -76,7 +75,7 @@ const ProjectDetail = () => {
             console.log('Copy: ', projectCopy.tasksByStatus[0]);
 
             axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( project => setProject( () => projectCopy))
+            .then( project => getProject(id) )
             .catch(error => console.log(error))
             return;
         }
@@ -92,13 +91,11 @@ const ProjectDetail = () => {
         projectCopy.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks = finishTaskArrAdjusted
 
         axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-        .then( project => setProject( () => projectCopy))
+        .then( project => getProject(id))
         .catch(error => console.log(error))
         return;
 
     }
-
-    // useEffect(() => {getProject(id)}, [])
 
     return (
         <>
@@ -112,9 +109,13 @@ const ProjectDetail = () => {
                     setProjectMembers,
                     tasks,
                     setTasks,
-                    getProject
-                }}>
-                    <TaskCreate/>
+                    getProject,
+                    popup,
+                    setPopup
+                }}> 
+                    <Popup trigger={popup}>
+                        <TaskCreate/>
+                    </Popup>
                     <TasksOneProject />
                 </ProjectContext.Provider>   
              </DragDropContext>

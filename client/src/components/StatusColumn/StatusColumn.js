@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.css'
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from '../TaskCard/TaskCard';
+import ButtonRound from '../ButtonRound/ButtonRound';
 
 const StatusColumn = props => {
 
     return (
-        
+        <>
         <Droppable droppableId={props.status._id}>
         {(provided, snapshot) => (
 
@@ -25,6 +26,8 @@ const StatusColumn = props => {
         </div>
         )}
         </Droppable>
+        <ButtonRound>+</ButtonRound>
+        </>
         
     )
 }

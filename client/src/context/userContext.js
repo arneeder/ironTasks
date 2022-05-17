@@ -21,7 +21,6 @@ const UserWrapper = props => {
         .catch( err => console.log(err) )
     }
 
-
     return(
         <UserContext.Provider
             value={{

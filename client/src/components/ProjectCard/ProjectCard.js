@@ -23,25 +23,34 @@ const ProjectCard = props => {
             .catch(err => console.log(err))
     }
 
-    useEffect( () => getProject(props.projectId))
+    useEffect( () => getProject(props.projectId), [])
+
+    console.log({project});
   
     return (
         <div className='container'>
-            <h3>{project?.name}</h3>
+            <h3>{project.name}</h3>
             <article>
                 <h4>Description: </h4>
-                <p>{props.project.description}</p>
+                <p>{project.description}</p>
             </article>
             <article>
                 <h4>Members: </h4>
                 <div className='member-container'>
+                {
+                    project.members.map(
+                        member => (
+                            <p key={member._id}>{member.name}</p>
+                        )
+                    )
+                }
 
                 </div>
-                <Link to={`/ProjectDetail/${props.project._id}`}>
+                <Link to={`/ProjectDetail/${project._id}`}>
                     <ButtonSubmit className="btn-small" content={"View Board"} />
                 </Link>
                 <form onSubmit={handleDelete}>
-                    <input type="hidden" value={ props.project._id } />
+                    <input type="hidden" value={ project._id } />
                     <ButtonSubmit className="btn-small" content={"Delete"} />
                 </form>
             </article>

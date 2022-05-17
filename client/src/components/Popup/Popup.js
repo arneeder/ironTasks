@@ -1,12 +1,17 @@
 import './index.css'
 import React from 'react'
-import ButtonRound from '../ButtonRound/ButtonRound'
+import Button from '../Button/Button'
 
 const Popup = props => {
-
+    
     return ( (props.trigger) ? (
         <div className='popup'>
-            <ButtonRound className='btn-close'>X</ButtonRound>
+            <Button
+                className={'btn-close'}
+                content={'X'}
+                trigger={props.trigger}
+                setTrigger={props.setTrigger}
+            />
             <div className="popup-inner">
                 { props.children }
             </div>

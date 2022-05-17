@@ -48,4 +48,15 @@ router.post('/project/:id', (req, res, next) => {
         .catch(err => next(err))
 });
 
+router.get('/:id', (req, res, next) => {
+    
+    const taskId = req.params.id
+    
+    Task.findById(taskId)
+        .populate('accountable')
+        .populate('responsible')
+        .then( task => res.status(201).json(task) )
+        .catch(err => next(err))
+});
+
 module.exports = router;

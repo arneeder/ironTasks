@@ -15,7 +15,6 @@ const ProjectCreate = () => {
         e.preventDefault()
         axios.post('/api/projects/', {name, description}, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( response => {
-                console.log({response})
                 setName(() => '')
                 setDescription(() => '')
                 getMyProjects()

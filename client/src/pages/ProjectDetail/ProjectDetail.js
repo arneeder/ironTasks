@@ -6,6 +6,7 @@ import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
+import TaskDetail from '../../components/TaskDetail/TaskDetail';
 
 const ProjectDetail = () => {
     
@@ -16,7 +17,9 @@ const ProjectDetail = () => {
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])
-    const [popup, setPopup] = useState(false)
+    const [taskCreate, setTaskCreate] = useState(false)
+    const [taskDetail, setTaskDetail] = useState(false)
+    const [currentTaskId, setCurrentTaskId] = useState('')
 
     const getProject = projectId => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
@@ -40,7 +43,6 @@ const ProjectDetail = () => {
               setTasks(() => tasks)
               setProjectMembers(() => projectMembers)
               setAvailableStatusses(() => availableStatusses)
-              console.log('new Project from getProject: ', project.data);
               setProject(() => project.data)
             })
             .catch(error => console.log(error))
@@ -70,9 +72,6 @@ const ProjectDetail = () => {
             
             const projectCopy = JSON.parse(JSON.stringify(project))
             projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
-
-            console.log('State: ', project.tasksByStatus[0]);
-            console.log('Copy: ', projectCopy.tasksByStatus[0]);
 
             axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( project => getProject(id) )
@@ -110,11 +109,24 @@ const ProjectDetail = () => {
                     tasks,
                     setTasks,
                     getProject,
-                    popup,
-                    setPopup
+                    taskCreate,
+                    setTaskCreate,
+                    taskDetail,
+                    setTaskDetail,
+                    currentTaskId,
+                    setCurrentTaskId
                 }}> 
-                    <Popup trigger={popup}>
-                        <TaskCreate/>
+                    <Popup 
+                        trigger={taskCreate}
+                        setTrigger={setTaskCreate}
+                    >
+                        <TaskCreate />
+                    </Popup>
+                    <Popup 
+                        trigger={taskDetail}
+                        setTrigger={setTaskDetail}
+                    >
+                        <TaskDetail />
                     </Popup>
                     <TasksOneProject />
                 </ProjectContext.Provider>   

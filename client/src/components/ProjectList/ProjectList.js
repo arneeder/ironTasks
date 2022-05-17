@@ -10,8 +10,6 @@ const ProjectList = () => {
     
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects, myProjects } = useContext(MyProjectsContext)
-    console.log({myProjects})
-    console.log(MyProjectsContext);
     
     const handleDelete = e => {
         e.preventDefault()

@@ -28,7 +28,7 @@ const projects = require("./routes/projects");
 app.use("/api/projects", isAuthenticated, projects);
 
 const tasks = require("./routes/tasks");
-app.use("/api/tasks", isAuthenticated, tasks);
+app.use("/api/tasks", tasks);
 
 const status = require("./routes/status");
 app.use("/api/status", isAuthenticated, status);

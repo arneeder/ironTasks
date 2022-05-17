@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import './index.css'
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from '../TaskCard/TaskCard';
-import ButtonRound from '../ButtonRound/ButtonRound';
+import Button from '../Button/Button';
+import ProjectContext from '../../context/getProject';
 
 const StatusColumn = props => {
+
+    const { taskCreate, setTaskCreate } = useContext(ProjectContext)
 
     return (
         <>
@@ -26,7 +29,12 @@ const StatusColumn = props => {
         </div>
         )}
         </Droppable>
-        <ButtonRound>+</ButtonRound>
+        <Button 
+            className={'btn-round'}
+            content={'+'}
+            trigger={taskCreate}
+            setTrigger={setTaskCreate}
+        />
         </>
         
     )

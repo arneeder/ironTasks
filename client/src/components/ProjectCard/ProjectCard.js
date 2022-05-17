@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
-import ProjectContext from '../../context/getProject'
+import { ProjectContext } from '../../context/getProject'
 
 const ProjectCard = props => {
 

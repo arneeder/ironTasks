@@ -1,5 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const ProjectContext = React.createContext(null)
+const ProjectContext = React.createContext()
 
-export default ProjectContext
+const ProjectWrapper = props => {
+
+
+
+    const storedToken = localStorage.getItem('authToken')
+
+    const [project, setProject] = useState([])
+    const [availableStatusses, setAvailableStatusses] = useState([])
+    const [projectMembers, setProjectMembers] = useState([])
+    const [tasks, setTasks] = useState([])
+    const [taskCreate, setTaskCreate] = useState(false)
+    const [taskDetail, setTaskDetail] = useState(false)
+    const [currentTask, setCurrentTask] = useState('')
+
+    const getProject = projectId => {
+        axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
+            .then( project => {
+              const availableStatusses = []
+              const projectMembers = []
+              const tasks = []
+              
+              project.data.tasksByStatus.forEach(statusWithTasks => {
+                  availableStatusses.push(statusWithTasks.status)
+              })
+              
+              project.data.members.forEach(projectMember => {
+                  projectMembers.push(projectMember)
+              })
+  
+              project.data.tasksByStatus.forEach(statusColumn => {
+                  tasks.push(statusColumn)
+              })
+  
+              setTasks(() => tasks)
+              setProjectMembers(() => projectMembers)
+              setAvailableStatusses(() => availableStatusses)
+              setProject(() => project.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const getCurrentTask = currentTaskId => {
+        axios.get(`/api/tasks/${currentTaskId}`)
+                .then( taskFromDb => {
+                    setCurrentTask(() => taskFromDb.data)
+                    console.log(taskFromDb)
+                } )
+                .catch( err => console.log(err) )
+    }
+
+
+
+
+
+    return(
+        <ProjectContext.Provider
+            value={{
+                project,
+                setProject,
+                availableStatusses,
+                setAvailableStatusses,
+                projectMembers,
+                setProjectMembers,
+                tasks,
+                setTasks,
+                getProject,
+                taskCreate,
+                setTaskCreate,
+                taskDetail,
+                currentTask,
+                setTaskDetail,
+                getCurrentTask
+                }}>
+			{props.children}
+		</ProjectContext.Provider>
+    )
+}
+
+export { ProjectContext, ProjectWrapper }

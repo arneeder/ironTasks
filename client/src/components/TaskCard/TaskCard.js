@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './index.css'
 import { Draggable } from 'react-beautiful-dnd';
 import Button from '../Button/Button'
-import ProjectContext from '../../context/getProject';
+import { ProjectContext } from '../../context/getProject';
 
 const TaskCard = props => {
     

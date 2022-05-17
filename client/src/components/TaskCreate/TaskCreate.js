@@ -2,7 +2,7 @@ import './index.css'
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import ProjectContext from '../../context/getProject';
+import { ProjectContext } from '../../context/getProject';
 
 const CreateTask = () => {
     

@@ -1,6 +1,6 @@
 import './index.css';
 import React, { useContext } from 'react';
-import ProjectContext from '../../context/getProject';
+import { ProjectContext } from '../../context/getProject';
 
 const TaskDetail = () => {
 

@@ -15,12 +15,9 @@ const CreateTask = () => {
     const [accountable, setAccountable] = useState('')
     const [responsible, setResponsible] = useState('')
     const [status, setStatus] = useState('')
-    // const [project, setProject] = useState({})
-
     
     const handleSubmit = e => {
         e.preventDefault()
-        console.log({project})
         const projects = [{project: id, status: status}]
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
@@ -36,7 +33,6 @@ const CreateTask = () => {
         axios.post(`/api/tasks/project/${id}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( task => {                
                 const taskId = task.data._id
-                console.log({taskId}, {status});
                 
                 const updateParameter = {
                     oldProject: project,

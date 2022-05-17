@@ -1,0 +1,9 @@
+.primary {
+    width: 240px;
+    height: 60px;
+    background-color: #5e6042;
+    font-size: 24px;
+    color: white;
+    margin: 20px;
+    border-radius: 5px;
+}

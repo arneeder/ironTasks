@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth';
+import ButtonSubmit from '../../components/ButtonSubmit/ButtonSubmit';
 
 
 const Login = () => {
@@ -21,33 +22,36 @@ const Login = () => {
 
     axios.post('/api/auth/login', requestBody)
       .then( response => {
-        console.log({response});
         const token = response.data.authToken
         storeToken(token)
         verifyStoredToken()
           .then(() => {
-            navigate('/')
+            navigate('/main')
           })
-
+          .catch( err => console.log(err) )
       })
-      .catch()
+      .catch( err => console.log(err) )
   }
-  const handleEmail = e => setEmail(() => e.target.value)
-  const handlePassword = e => setPassword(() => e.target.value)
   
   return (
-    <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input type="text" value={email} onChange={ handleEmail } />
+    <div className="container">
+        <form className="signup-container" onSubmit={handleSubmit}>
+        
+            <div className="label-input">
+                <input className="signup-element" type="text" placeholder="Email" value={email} onChange={ e => setEmail(() => e.target.value) } />
+            </div>
 
-        <label htmlFor="password">Password: </label>
-        <input type="password" value={password} onChange={ handlePassword } />
+            <div className="label-input">
+                <input className="signup-element" type="password" placeholder="Password" value={password} onChange={ e => setPassword(() => e.target.value) } />
+            </div>
 
-        <button type="submit">Log In</button>
-      </form>
-    </>
+            <ButtonSubmit 
+                className={'primary'}
+                content={'Signup'}
+            />
+
+        </form>
+    </div>
   )
 }
 

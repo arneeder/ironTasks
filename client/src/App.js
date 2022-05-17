@@ -6,13 +6,15 @@ import Main from './pages/Main/Main';
 import ProjectsDetail from './pages/ProjectsDetail/ProjectsDetail';
 import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
 import Navbar from './components/Navbar/Navbar';
+import Signup from './pages/Signup/Signup';
 
 function App() {
   return (
     <div className="App">
-      <Navbar></Navbar>
+      <Navbar/>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/main' element={<Main />} />
         <Route path='/ProjectsDetail' element={<ProjectsDetail />} />

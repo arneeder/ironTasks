@@ -13,9 +13,7 @@ root.render(
   <BrowserRouter>
     <AuthProviderWrapper>
       <MyProjectsWrapper>
-        {/* <ProjectProviderWrapper>             */}
             <App />
-        {/* </ProjectProviderWrapper> */}
       </MyProjectsWrapper>
     </AuthProviderWrapper>
   </BrowserRouter>

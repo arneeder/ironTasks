@@ -1,5 +1,23 @@
 const { Schema, model } = require("mongoose");
 
+const statusColumn = new Schema(
+    {
+        status: {
+            type: Schema.Types.ObjectId,
+            ref: 'Status'
+        },
+        tasks: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Task'
+            }
+        ]
+    },
+    {
+        timestamps: true,
+    }
+)
+
 const projectSchema = new Schema(
   {
     name: {
@@ -19,12 +37,7 @@ const projectSchema = new Schema(
             ref: 'User'
         }
     ],
-    statusColumns: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Status'
-        }
-    ],
+    tasksByStatus: [ statusColumn ],
     parentProject: {
         type: Schema.Types.ObjectId,
         ref: 'Project',

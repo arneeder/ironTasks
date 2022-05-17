@@ -1,11 +1,12 @@
+import './index.css'
 import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { MyProjectsContext } from '../context/getMyProjects';
+import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 
-const ProjectList = props => {
+const ProjectList = () => {
     
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects, myProjects } = useContext(MyProjectsContext)
@@ -33,7 +34,7 @@ const ProjectList = props => {
                         <Card.Body>
                             <Card.Title>{project.name}</Card.Title>
                             <Card.Text>{project.description}</Card.Text>
-                            <Link to={`/projectDetail/${project._id}`}>
+                            <Link to={`/ProjectDetail/${project._id}`}>
                                 <Button variant="primary">View Kanban Board</Button>
                             </Link>
                             <form onSubmit={handleDelete}>

@@ -1,9 +1,10 @@
+import './index.css'
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import { MyProjectsContext } from '../context/getMyProjects';
+import { MyProjectsContext } from '../../context/getMyProjects';
 
-const CreateProject = () => {
+const ProjectCreate = () => {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -40,4 +41,4 @@ const CreateProject = () => {
     )
 }
 
-export default CreateProject
+export default ProjectCreate

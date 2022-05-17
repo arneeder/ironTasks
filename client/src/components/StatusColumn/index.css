@@ -1,0 +1,13 @@
+.staus-columns {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 350px;
+    margin-left: 10px;
+    margin-top: 10px;
+    height: 85vh;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}

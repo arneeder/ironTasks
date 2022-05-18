@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ProjectContext from '../../context/getProject';
+import React, { useContext } from 'react';
+import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import Popup from '../../components/Popup/Popup';
 import TaskCreate from '../../components/TaskCreate/TaskCreate';
@@ -11,53 +11,15 @@ import TaskDetail from '../../components/TaskDetail/TaskDetail';
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const storedToken = localStorage.getItem('authToken')
 
-    const [project, setProject] = useState([])
-    const [availableStatusses, setAvailableStatusses] = useState([])
-    const [projectMembers, setProjectMembers] = useState([])
-    const [tasks, setTasks] = useState([])
-    const [taskCreate, setTaskCreate] = useState(false)
-    const [taskDetail, setTaskDetail] = useState(false)
-    const [currentTask, setCurrentTask] = useState('')
 
-    const getProject = projectId => {
-        axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
-            .then( project => {
-              const availableStatusses = []
-              const projectMembers = []
-              const tasks = []
-              
-              project.data.tasksByStatus.forEach(statusWithTasks => {
-                  availableStatusses.push(statusWithTasks.status)
-              })
-              
-              project.data.members.forEach(projectMember => {
-                  projectMembers.push(projectMember)
-              })
-  
-              project.data.tasksByStatus.forEach(statusColumn => {
-                  tasks.push(statusColumn)
-              })
-  
-              setTasks(() => tasks)
-              setProjectMembers(() => projectMembers)
-              setAvailableStatusses(() => availableStatusses)
-              setProject(() => project.data)
-            })
-            .catch(error => console.log(error))
-    }
-    const getCurrentTask = currentTaskId => {
-        axios.get(`/api/tasks/${currentTaskId}`)
-                .then( taskFromDb => {
-                    setCurrentTask(() => taskFromDb.data)
-                    console.log(taskFromDb)
-                } )
-                .catch( err => console.log(err) )
-    }
+    const { project, getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail } = useContext(ProjectContext)
+
 
     const onDragEnd = result => {
 
+        const storedToken = localStorage.getItem('authToken')
+        
         const {destination, source, draggableId} = result
 
         if(!destination) {
@@ -107,23 +69,6 @@ const ProjectDetail = () => {
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
-                <ProjectContext.Provider value={{
-                    project,
-                    setProject,
-                    availableStatusses,
-                    setAvailableStatusses,
-                    projectMembers,
-                    setProjectMembers,
-                    tasks,
-                    setTasks,
-                    getProject,
-                    taskCreate,
-                    setTaskCreate,
-                    taskDetail,
-                    currentTask,
-                    setTaskDetail,
-                    getCurrentTask
-                }}> 
                     <Popup 
                         trigger={taskCreate}
                         setTrigger={setTaskCreate}
@@ -137,7 +82,6 @@ const ProjectDetail = () => {
                         <TaskDetail />
                     </Popup>
                     <TasksOneProject />
-                </ProjectContext.Provider>   
              </DragDropContext>
         </>
     )

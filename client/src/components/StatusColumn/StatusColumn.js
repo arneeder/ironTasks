@@ -3,7 +3,7 @@ import './index.css'
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from '../TaskCard/TaskCard';
 import Button from '../Button/Button';
-import ProjectContext from '../../context/getProject';
+import { ProjectContext } from '../../context/getProject';
 
 const StatusColumn = props => {
 

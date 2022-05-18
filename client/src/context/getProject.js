@@ -14,6 +14,7 @@ const ProjectWrapper = props => {
     const [tasks, setTasks] = useState([])
     const [taskCreate, setTaskCreate] = useState(false)
     const [taskDetail, setTaskDetail] = useState(false)
+    const [columnCreate, setColumnCreate] = useState(false)
     const [currentTask, setCurrentTask] = useState('')
     const [projectEdit, setProjectEdit] = useState(false)
 
@@ -66,8 +67,10 @@ const ProjectWrapper = props => {
                 taskCreate,
                 setTaskCreate,
                 taskDetail,
-                currentTask,
                 setTaskDetail,
+                columnCreate,
+                setColumnCreate,
+                currentTask,
                 getCurrentTask,
                 projectEdit,
                 setProjectEdit

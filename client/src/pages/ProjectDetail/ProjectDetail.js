@@ -7,11 +7,12 @@ import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
+import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
 
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail } = useContext(ProjectContext)
+    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail, columnCreate, setColumnCreate } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
 
@@ -84,6 +85,12 @@ const ProjectDetail = () => {
                         setTrigger={setTaskDetail}
                     >
                         <TaskDetail projectId={id} />
+                    </Popup>
+                    <Popup 
+                        trigger={columnCreate}
+                        setTrigger={setColumnCreate}
+                    >
+                        <ColumnCreate projectId={id} />
                     </Popup>
                     <TasksOneProject />
              </DragDropContext>

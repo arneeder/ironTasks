@@ -3,11 +3,12 @@ import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProjectContext } from '../../context/getProject';
 import StatusColumn from '../StatusColumn/StatusColumn';
+import Button from '../Button/Button';
 
 const TasksOneProject = () => {
 
     const { id } = useParams()
-    const { getProject, tasks } = useContext(ProjectContext)
+    const { getProject, tasks, columnCreate, setColumnCreate } = useContext(ProjectContext)
 
 
     useEffect(() => {
@@ -25,6 +26,12 @@ const TasksOneProject = () => {
                         />
                 ))
             }
+            <Button 
+                    className={'btn-round'}
+                    content={'+'}
+                    trigger={columnCreate}
+                    setTrigger={setColumnCreate}
+                />
         </div>
     )
 }

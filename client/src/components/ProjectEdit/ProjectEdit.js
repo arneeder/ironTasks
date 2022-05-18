@@ -2,6 +2,7 @@ import './index.css';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
+import Multiselect from 'multiselect-react-dropdown';
 
 const ProjectEdit = () => {
     
@@ -11,59 +12,46 @@ const ProjectEdit = () => {
 
     const [name, setName] = useState(project.name)
     const [description, setDescription] = useState(project.description)
-    const [optionTags, setOptionTags] = useState([])
+    const [memberOptions, setMemberOptions] = useState([])
+    const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
 
+    const onMemberSelect = () => {
+        console.log('select member');
+    }
+    const onMemberRemove = () => {
+        console.log('remove member');
+    }
     const handleSubmit = () => {
         console.log('handle submit');
     }
-    // const getOptionTags =  async () => {
-    //     await getProjectUsers(project._id)
-    //     await getAllUsers()
-    //     console.log(allUsers);
-    //     console.log(projectUsers);
-    //     const tagList = allUsers.map( user => {
-    //         if (projectUsers.includes( user )) {
-    //             return `<option value=${user._id} selected >${user.name}</option>`
-    //         } else {
-    //             return `<option value=${user._id} >${user.name}</option>`
-    //         }
-    //     })
-    //     setOptionTags( () => tagList )
-    // }
 
-    const getOptionTags = projectId => {
-        
-        const optionTagList = []
-        
+    const getAllUsers = () => {
         axios.get('api/users', { headers: { Authorization: `Bearer ${storedToken}` } })
-        .then( allUsers => {
-            axios.get(`api/users/project/${projectId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
-                .then( projectUsers => {
-                    // console.log(allUsers);
-                    // console.log(projectUsers);
-                    allUsers.data.forEach( user => {
-                        optionTagList.push((<option value={user._id} >{user.name}</option>))
-                        // if(projectUsers.find( projectUser => projectUser._id  === user._id )) {
-                        //     optionTags.push(`<option value=${user._id} >${user.name}</option>`)
-                        // } else {
-                        //     optionTags.push(`<option value=${user._id} >${user.name}</option>`)
-                        // }
-                    })
-                } )
-                .catch( err => console.log(err) )
+            .then( users => {
+                const userNames = []
+                users.data.forEach(user => {
+                    userNames.push({name: user.name, id: user._id})
+                    setMemberOptions( () => userNames )
+                })
+            } )
+            .catch( err => console.log(err) )
+    }
+    const getProjectUsers = projectId => {
+        axios.get(`api/users/project/${projectId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+        .then( users => {
+            const userNames = []
+            users.data.forEach(user => {
+                userNames.push({name: user.name, id: user._id})
+                setSelectedMemberOptions( () => userNames )
+            })
         } )
-        .catch( err => console.log(err) )
-
-        setOptionTags(() => optionTagList)
+            .catch( err => console.log(err) )
     }
 
     useEffect(() => {
-        console.log('Use Effect of User Context')
-        console.log('Project ID: ', project._id);
-        getOptionTags(project._id)
+        getAllUsers()
+        getProjectUsers(project._id)
     }, [])
-
-    console.log('Option Tags: ', optionTags);
     
     return (
         <>
@@ -75,10 +63,14 @@ const ProjectEdit = () => {
                 <label htmlFor="description">Description: </label>
                 <input type="text" value={description} onChange={e => setDescription( () => e.target.value)} />
 
-                <label htmlFor="members">Description: </label>     
-                <select  id="members">
-                    {optionTags}
-                </select>
+                <label htmlFor="members">Members: </label>     
+                <Multiselect
+                    options={memberOptions} // Options to display in the dropdown
+                    selectedValues={selectedMemberOptions} // Preselected value to persist in dropdown
+                    onSelect={onMemberSelect} // Function will trigger on select event
+                    onRemove={onMemberRemove} // Function will trigger on remove event
+                    displayValue="name" // Property name to display in the dropdown options
+                />
                 
                 <button type="submit">Create Task</button>
             </form>

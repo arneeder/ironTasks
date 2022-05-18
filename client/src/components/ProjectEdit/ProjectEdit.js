@@ -90,11 +90,11 @@ const ProjectEdit = () => {
 
                 <label htmlFor="members">Members: </label>     
                 <Multiselect
-                    options={memberOptions} // Options to display in the dropdown
-                    selectedValues={selectedMemberOptions} // Preselected value to persist in dropdown
-                    onSelect={onMemberSelect} // Function will trigger on select event
-                    onRemove={onMemberRemove} // Function will trigger on remove event
-                    displayValue="name" // Property name to display in the dropdown options
+                    options={memberOptions}
+                    selectedValues={selectedMemberOptions}
+                    onSelect={onMemberSelect}
+                    onRemove={onMemberRemove}
+                    displayValue="name"
                     showCheckbox={true}
                 />
                 

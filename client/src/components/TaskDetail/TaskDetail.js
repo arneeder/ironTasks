@@ -48,7 +48,7 @@ const TaskDetail = props => {
     return (
         <>
             <div className='task-detail-container'>
-                <header>
+                <header className='header-task-detail'>
                     <h2>{currentTask.name}</h2>
                 </header>
                 <div className="task-detail-information">

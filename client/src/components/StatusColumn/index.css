@@ -1,9 +1,26 @@
+.column-container {
+    max-height: 80vh;
+}
+.column-header {
+    max-height: 3vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    padding: 20px;
+    height: 70%;
+}
+.column-header h3 {
+    font-size: 48px;
+    color: #5e6042;
+}
 .staus-columns {
     background-color: rgba(0, 0, 0, 0.2);
-    width: 350px;
+    width: 300px;
     margin-left: 10px;
     margin-top: 10px;
-    height: 85vh;
+    padding: 10px;
+    height: 75vh;
     border-radius: 5px;
     overflow-y: auto;
 

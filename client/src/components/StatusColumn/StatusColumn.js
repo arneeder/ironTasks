@@ -14,10 +14,12 @@ const StatusColumn = props => {
         {(provided, snapshot) => (
             <div className='column-container'
                 {...provided.draggableProps}
-                {...provided.dragHandleProps}
+                
                 ref={provided.innerRef}
             >
-                <header className='column-header'>
+                <header className='column-header'
+                    {...provided.dragHandleProps}
+                >
                     <h3>{props.status.name}</h3>
                     <Button 
                         className={'btn-round'}

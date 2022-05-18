@@ -75,7 +75,7 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.put('/state/:id', (req, res, next) => {
-    // console.log(req.body);
+    
     const projectCopy = req.body
     
     Project.findByIdAndUpdate(req.params.id,

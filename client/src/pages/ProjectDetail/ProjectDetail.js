@@ -72,7 +72,7 @@ const ProjectDetail = () => {
     }, [])
 
     return (
-        <>
+        <div className='project-board-container'>
             <DragDropContext onDragEnd={onDragEnd}>
                     <Popup 
                         trigger={taskCreate}
@@ -94,7 +94,7 @@ const ProjectDetail = () => {
                     </Popup>
                     <TasksOneProject />
              </DragDropContext>
-        </>
+        </div>
     )
 }
 

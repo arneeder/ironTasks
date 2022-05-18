@@ -17,7 +17,7 @@ const TasksOneProject = () => {
     }, [])
 
     return (
-        <Droppable droppableId={"all-columns"} direction="horizontal">
+        <Droppable droppableId={"all-columns"} direction="horizontal" type="column">
         {(provided, snapshot) => (
         
         <div className='container'
@@ -40,6 +40,7 @@ const TasksOneProject = () => {
                     trigger={columnCreate}
                     setTrigger={setColumnCreate}
                 />
+        {provided.placeholder}
         </div>
         )}
         </Droppable>

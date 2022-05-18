@@ -43,6 +43,7 @@ const StatusColumn = props => {
                                 <TaskCard key={task._id} task={task} index={index} />
                         ))
                     }
+                {provided.placeholder}
                 </div>
             )}
             </Droppable>

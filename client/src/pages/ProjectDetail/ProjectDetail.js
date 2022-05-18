@@ -21,7 +21,7 @@ const ProjectDetail = () => {
 
         const storedToken = localStorage.getItem('authToken')
         
-        const {destination, source, draggableId} = result
+        const {destination, source, draggableId, type} = result
 
         if(!destination) {
             return
@@ -30,40 +30,65 @@ const ProjectDetail = () => {
             return
         }
 
-        const startTaskArr = project.tasksByStatus.find(column => column.status._id === source.droppableId).tasks
-        const finishTaskArr = project.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks
+        console.log(type);
+        if(type === 'column') {
+            const newColumnOrder = project.tasksByStatus
+            const draggedElement = newColumnOrder.splice(source.index, 1)
+            console.log(draggedElement);
+            newColumnOrder.splice(destination.index, 0, draggedElement[0])
 
-        const startColumn = source.droppableId
-        const finishColumn = destination.droppableId
+            const newProject = JSON.parse(JSON.stringify(project))
+            newProject.tasksByStatus = newColumnOrder
+            console.log(newProject);
 
-        if (startColumn === finishColumn) {
+            axios.put(`/api/projects/state/${id}`, newProject, { headers: { Authorization: `Bearer ${storedToken}` } })
+            .then( project => {
+                console.log('axios ran succesfully');
+                getProject(id, setProject)
+                setProject( () => project)
+            } )
+            .catch(error => console.log(error))
+
+            return;
+        } else {
+            const startTaskArr = project.tasksByStatus.find(column => column.status._id === source.droppableId).tasks
+            const finishTaskArr = project.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks
+    
+            const startColumn = source.droppableId
+            const finishColumn = destination.droppableId
+    
+            if (startColumn === finishColumn) {
+                const startTaskArrAdjusted = Array.from(startTaskArr)
+                const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
+                startTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
+                
+                const projectCopy = JSON.parse(JSON.stringify(project))
+                projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
+    
+                axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
+                .then( project => getProject(id, setProject) )
+                .catch(error => console.log(error))
+                return;
+            }
+    
             const startTaskArrAdjusted = Array.from(startTaskArr)
             const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
-            startTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
             
+            const finishTaskArrAdjusted = Array.from(finishTaskArr)
+            finishTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
+    
             const projectCopy = JSON.parse(JSON.stringify(project))
             projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
-
+            projectCopy.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks = finishTaskArrAdjusted
+    
             axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( project => getProject(id, setProject) )
+            .then( project => getProject(id, setProject))
             .catch(error => console.log(error))
             return;
+
         }
 
-        const startTaskArrAdjusted = Array.from(startTaskArr)
-        const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
-        
-        const finishTaskArrAdjusted = Array.from(finishTaskArr)
-        finishTaskArrAdjusted.splice(destination.index, 0, draggedElement[0])
 
-        const projectCopy = JSON.parse(JSON.stringify(project))
-        projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
-        projectCopy.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks = finishTaskArrAdjusted
-
-        axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-        .then( project => getProject(id, setProject))
-        .catch(error => console.log(error))
-        return;
 
     }
 

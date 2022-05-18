@@ -12,9 +12,6 @@ const statusColumn = new Schema(
                 ref: 'Task'
             }
         ]
-    },
-    {
-        timestamps: true,
     }
 )
 

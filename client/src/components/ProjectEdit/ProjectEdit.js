@@ -3,10 +3,12 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import Multiselect from 'multiselect-react-dropdown';
+import { MyProjectsContext } from '../../context/getMyProjects'
 
 const ProjectEdit = () => {
     
-    const { project, setProject } = useContext(ProjectContext)
+    const { project, setProject, getProject } = useContext(ProjectContext)
+    const { getMyProjects } = useContext(MyProjectsContext)
     const storedToken = localStorage.getItem('authToken')
 
 
@@ -19,17 +21,16 @@ const ProjectEdit = () => {
         setSelectedMemberOptions( () => selectedList )
     }
     const onMemberRemove = (selectedList, selectedItem) => {
-        selectedMemberOptions( () => selectedList )
+        setSelectedMemberOptions( () => selectedList )
     }
     const handleSubmit = e => {
         e.preventDefault()
-        // get array of members IDs
+        
         const memberList = []
         selectedMemberOptions.forEach( member => {
             memberList.push(member.id)
         })
 
-        // create adjustedProject
         const adjustedProject = {
             name: name,
             description: description,
@@ -43,7 +44,8 @@ const ProjectEdit = () => {
             .then( newProject => setProject( () => newProject ) )
             .catch( err => console.log(err) )
         
-        
+            getMyProjects()
+            getProject(project._id)
     }
 
     const getAllUsers = () => {
@@ -70,6 +72,7 @@ const ProjectEdit = () => {
     }
 
     useEffect(() => {
+        getMyProjects()
         getAllUsers()
         getProjectUsers(project._id)
     }, [])

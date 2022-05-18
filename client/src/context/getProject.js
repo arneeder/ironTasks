@@ -56,8 +56,6 @@ const ProjectWrapper = props => {
     return(
         <ProjectContext.Provider
             value={{
-                // project,
-                // setProject,
                 availableStatusses,
                 setAvailableStatusses,
                 projectMembers,

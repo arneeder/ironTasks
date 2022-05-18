@@ -83,7 +83,7 @@ const ProjectDetail = () => {
                         trigger={taskDetail}
                         setTrigger={setTaskDetail}
                     >
-                        <TaskDetail />
+                        <TaskDetail projectId={id} />
                     </Popup>
                     <TasksOneProject />
              </DragDropContext>

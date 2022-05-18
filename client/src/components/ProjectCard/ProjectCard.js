@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './index.css';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
@@ -11,8 +11,9 @@ const ProjectCard = props => {
 
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects } = useContext(MyProjectsContext)
-    const { getProject, project, projectEdit, setProjectEdit } = useContext(ProjectContext)
-    //
+    const { getProject, projectEdit, setProjectEdit } = useContext(ProjectContext)
+    
+    const [project, setProject] = useState([])
     
     const handleDelete = e => {
         e.preventDefault()
@@ -26,11 +27,11 @@ const ProjectCard = props => {
     }
 
     useEffect( () => {
-        getProject(props.projectId)
+        getProject(props.projectId, setProject)
 
     }, [])
 
-    console.log(project);
+    console.log('Project from Card: ', project);
   
     return (
         <div className='task-card-container'>

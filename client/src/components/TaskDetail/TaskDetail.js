@@ -2,6 +2,7 @@ import './index.css';
 import Multiselect from 'multiselect-react-dropdown';
 import React, { useContext, useState, useEffect } from 'react';
 import { ProjectContext } from '../../context/getProject';
+import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 
 const TaskDetail = props => {
 
@@ -14,6 +15,7 @@ const TaskDetail = props => {
 
     const onAccountableSelect = (selectedList, selectedItem) => setAccountableState( () => selectedItem )
     const onResponsibleSelect = (selectedList, selectedItem) => setResponsibleState( () => selectedItem )
+    const handleSubmit = () => { console.log('todo') }
 
     useEffect( () => {
         getProject( props.projectId, setProject)
@@ -49,32 +51,40 @@ const TaskDetail = props => {
                 <header>
                     <h2>{currentTask.name}</h2>
                 </header>
-                <article>
-                    <h4>Details: </h4>
-                    <p>{ currentTask.description }</p>
-                </article>
-                <article>
-                    <h4>Accountable: </h4>
-                    <Multiselect
-                        options={personsInProject}
-                        selectedValues={ accountableState }
-                        onSelect={onAccountableSelect}
-                        displayValue="name"
-                        singleSelect={true}
-                        placeholder={ accountableState.name }
-                    />
-                </article>
-                <article>
-                    <h4>Responsible: </h4>
-                    <Multiselect
-                        options={personsInProject}
-                        selectedValues={ responsibleState }
-                        onSelect={onResponsibleSelect}
-                        displayValue="name"
-                        singleSelect={true}
-                        placeholder={ responsibleState.name }
-                    />
-                </article>
+                <div className="task-detail-information">
+                    <article className='task-detail-text'>
+                        <h4>Details: </h4>
+                        <p>{ currentTask.description }</p>
+                    </article>
+                    <form onSubmit={handleSubmit} className='task-ownership'>
+                        <article>
+                            <h4>Accountable: </h4>
+                            <Multiselect
+                                options={personsInProject}
+                                selectedValues={ accountableState }
+                                onSelect={onAccountableSelect}
+                                displayValue="name"
+                                singleSelect={true}
+                                placeholder={ accountableState.name }
+                            />
+                        </article>
+                        <article>
+                            <h4>Responsible: </h4>
+                            <Multiselect
+                                options={personsInProject}
+                                selectedValues={ responsibleState }
+                                onSelect={onResponsibleSelect}
+                                displayValue="name"
+                                singleSelect={true}
+                                placeholder={ responsibleState.name }
+                            />
+                        </article>
+                        <ButtonSubmit 
+                            className={'btn-small'}
+                            content={'Save'}
+                        />
+                    </form>
+                </div>
             </div>
         </>
     )

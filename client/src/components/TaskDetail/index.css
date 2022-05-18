@@ -3,7 +3,6 @@
     height: 100%;
     align-items: center;
 }
-
 header {
     padding: 20px;
     height: 70%;
@@ -11,4 +10,26 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.task-detail-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+.task-detail-text {
+    text-align: left;
+    min-height: 200px;
+    min-width: 400px;
+}
+.task-ownership {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-evenly;
+}
+.task-ownership article {
+    margin-right: 8px;
 }

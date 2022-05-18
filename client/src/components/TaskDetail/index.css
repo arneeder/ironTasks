@@ -3,7 +3,7 @@
     height: 100%;
     align-items: center;
 }
-header {
+.header-task-detail {
     padding: 20px;
     height: 70%;
     border-right: 3px solid black;

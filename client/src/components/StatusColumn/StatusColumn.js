@@ -10,32 +10,35 @@ const StatusColumn = props => {
     const { taskCreate, setTaskCreate } = useContext(ProjectContext)
 
     return (
-        <>
-        <Droppable droppableId={props.status._id}>
-        {(provided, snapshot) => (
+        <div className='column-container'>
+            <header className='column-header'>
+                <h3>{props.status.name}</h3>
+                <Button 
+                    className={'btn-round'}
+                    content={'+'}
+                    trigger={taskCreate}
+                    setTrigger={setTaskCreate}
+                />
+            </header>
+            <Droppable droppableId={props.status._id}>
+            {(provided, snapshot) => (
 
-        <div className='staus-columns'
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-        >
-            
-            <h3>{props.status.name}</h3>
-            {
-                props.tasks
-                    .map( (task, index) => (
-                        <TaskCard key={task._id} task={task} index={index} />
-                ))
-            }
+            <div className='staus-columns'
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+            >
+                
+                
+                {
+                    props.tasks
+                        .map( (task, index) => (
+                            <TaskCard key={task._id} task={task} index={index} />
+                    ))
+                }
+            </div>
+            )}
+            </Droppable>
         </div>
-        )}
-        </Droppable>
-        <Button 
-            className={'btn-round'}
-            content={'+'}
-            trigger={taskCreate}
-            setTrigger={setTaskCreate}
-        />
-        </>
         
     )
 }

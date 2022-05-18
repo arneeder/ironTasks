@@ -6,7 +6,7 @@ import Multiselect from 'multiselect-react-dropdown';
 
 const ProjectEdit = () => {
     
-    const { project } = useContext(ProjectContext)
+    const { project, setProject } = useContext(ProjectContext)
     const storedToken = localStorage.getItem('authToken')
 
 
@@ -15,14 +15,35 @@ const ProjectEdit = () => {
     const [memberOptions, setMemberOptions] = useState([])
     const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
 
-    const onMemberSelect = () => {
-        console.log('select member');
+    const onMemberSelect = (selectedList, selectedItem) => {
+        setSelectedMemberOptions( () => selectedList )
     }
-    const onMemberRemove = () => {
-        console.log('remove member');
+    const onMemberRemove = (selectedList, selectedItem) => {
+        selectedMemberOptions( () => selectedList )
     }
-    const handleSubmit = () => {
-        console.log('handle submit');
+    const handleSubmit = e => {
+        e.preventDefault()
+        // get array of members IDs
+        const memberList = []
+        selectedMemberOptions.forEach( member => {
+            memberList.push(member.id)
+        })
+
+        // create adjustedProject
+        const adjustedProject = {
+            name: name,
+            description: description,
+            members: memberList,
+            tasksByStatus: project.tasksByStatus,
+            parentProject: project.parentProject,
+            childProjects: project.childProjects
+        }
+
+        axios.put(`/api/projects/state/${project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
+            .then( newProject => setProject( () => newProject ) )
+            .catch( err => console.log(err) )
+        
+        
     }
 
     const getAllUsers = () => {
@@ -70,9 +91,10 @@ const ProjectEdit = () => {
                     onSelect={onMemberSelect} // Function will trigger on select event
                     onRemove={onMemberRemove} // Function will trigger on remove event
                     displayValue="name" // Property name to display in the dropdown options
+                    showCheckbox={true}
                 />
                 
-                <button type="submit">Create Task</button>
+                <button type="submit">Edit Task</button>
             </form>
     </>
   )

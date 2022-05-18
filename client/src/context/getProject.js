@@ -9,7 +9,7 @@ const ProjectWrapper = props => {
 
     const storedToken = localStorage.getItem('authToken')
 
-    const [project, setProject] = useState([])
+    // const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])
@@ -18,29 +18,29 @@ const ProjectWrapper = props => {
     const [currentTask, setCurrentTask] = useState('')
     const [projectEdit, setProjectEdit] = useState(false)
 
-    const getProject = projectId => {
+    const getProject = ( projectId, setProject ) => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
-            .then( project => {
+            .then( projectFromDb => {
               const availableStatusses = []
               const projectMembers = []
               const tasks = []
               
-              project.data.tasksByStatus.forEach(statusWithTasks => {
+              projectFromDb.data.tasksByStatus.forEach(statusWithTasks => {
                   availableStatusses.push(statusWithTasks.status)
               })
               
-              project.data.members.forEach(projectMember => {
+              projectFromDb.data.members.forEach(projectMember => {
                   projectMembers.push(projectMember)
               })
   
-              project.data.tasksByStatus.forEach(statusColumn => {
+              projectFromDb.data.tasksByStatus.forEach(statusColumn => {
                   tasks.push(statusColumn)
               })
   
               setTasks(() => tasks)
               setProjectMembers(() => projectMembers)
               setAvailableStatusses(() => availableStatusses)
-              setProject(() => project.data)
+              setProject(() => projectFromDb.data)
             })
             .catch(error => console.log(error))
     }
@@ -54,14 +54,11 @@ const ProjectWrapper = props => {
     }
 
 
-
-
-
     return(
         <ProjectContext.Provider
             value={{
-                project,
-                setProject,
+                // project,
+                // setProject,
                 availableStatusses,
                 setAvailableStatusses,
                 projectMembers,

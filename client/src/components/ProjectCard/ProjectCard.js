@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './index.css';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
@@ -11,8 +11,9 @@ const ProjectCard = props => {
 
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects } = useContext(MyProjectsContext)
-    const { getProject, project, projectEdit, setProjectEdit } = useContext(ProjectContext)
-    //
+    const { getProject, projectEdit, setProjectEdit } = useContext(ProjectContext)
+    
+    const [project, setProject] = useState([])
     
     const handleDelete = e => {
         e.preventDefault()
@@ -26,31 +27,17 @@ const ProjectCard = props => {
     }
 
     useEffect( () => {
-        getProject(props.projectId)
+        getProject(props.projectId, setProject)
 
     }, [])
 
-    console.log(project);
+    console.log('Project from Card: ', project);
   
     return (
-        <div className='container'>
+        <div className='task-card-container'>
             <h3>{project?.name}</h3>
-            <article>
-                <h4>Description: </h4>
-                <p>{project?.description}</p>
-            </article>
-            <article>
-                <h4>Members: </h4>
-                <div className='member-container'>
-                {/* {
-                    project?.members.map(
-                        member => (
-                            <p key={member._id}>{member.name}</p>
-                        )
-                    )
-                } */}
-
-                </div>
+            <p>{project?.description}</p>
+            <div className='btns'>
                 <Link to={`/ProjectDetail/${project?._id}`}>
                     <ButtonSubmit className="btn-small" content={"View Board"} />
                 </Link>
@@ -64,7 +51,7 @@ const ProjectCard = props => {
                     trigger={projectEdit}
                     setTrigger={setProjectEdit}
                 />
-            </article>
+            </div>
         </div>
   )
 }

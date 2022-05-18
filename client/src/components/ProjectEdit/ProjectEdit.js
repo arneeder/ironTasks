@@ -7,11 +7,11 @@ import { MyProjectsContext } from '../../context/getMyProjects'
 
 const ProjectEdit = () => {
     
-    const { project, setProject, getProject } = useContext(ProjectContext)
+    const {  getProject } = useContext(ProjectContext)
     const { getMyProjects } = useContext(MyProjectsContext)
     const storedToken = localStorage.getItem('authToken')
 
-
+    const [project, setProject] = useState({})
     const [name, setName] = useState(project.name)
     const [description, setDescription] = useState(project.description)
     const [memberOptions, setMemberOptions] = useState([])
@@ -72,6 +72,7 @@ const ProjectEdit = () => {
     }
 
     useEffect(() => {
+        getProject(project._id, setProject)
         getMyProjects()
         getAllUsers()
         getProjectUsers(project._id)

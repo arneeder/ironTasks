@@ -1,5 +1,16 @@
-.container {
-    border: 1px solid black;
+.task-card-container {
+    background-color: rgba(0, 0, 0, 0.2);
     height: 200px;
     width: 400px;
+    border-radius: 5px;
+    margin: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btns {
+    display: flex;
 }

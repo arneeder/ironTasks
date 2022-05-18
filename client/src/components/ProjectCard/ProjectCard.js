@@ -33,24 +33,10 @@ const ProjectCard = props => {
     console.log(project);
   
     return (
-        <div className='container'>
+        <div className='task-card-container'>
             <h3>{project?.name}</h3>
-            <article>
-                <h4>Description: </h4>
-                <p>{project?.description}</p>
-            </article>
-            <article>
-                <h4>Members: </h4>
-                <div className='member-container'>
-                {/* {
-                    project?.members.map(
-                        member => (
-                            <p key={member._id}>{member.name}</p>
-                        )
-                    )
-                } */}
-
-                </div>
+            <p>{project?.description}</p>
+            <div className='btns'>
                 <Link to={`/ProjectDetail/${project?._id}`}>
                     <ButtonSubmit className="btn-small" content={"View Board"} />
                 </Link>
@@ -64,7 +50,7 @@ const ProjectCard = props => {
                     trigger={projectEdit}
                     setTrigger={setProjectEdit}
                 />
-            </article>
+            </div>
         </div>
   )
 }

@@ -13,7 +13,7 @@ const TaskDetail = () => {
             <h2>{currentTask.name}</h2>
             <article>
                 <h4>Details: </h4>
-                <p>{currentTask.description.length < 400 ? currentTask.description : currentTask.description.splice(0, 396) + '...'}</p>
+                <p>{ currentTask.description }</p>
             </article>
         </>
     )

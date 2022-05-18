@@ -9,7 +9,6 @@ const ProjectWrapper = props => {
 
     const storedToken = localStorage.getItem('authToken')
 
-    // const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])

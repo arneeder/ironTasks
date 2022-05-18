@@ -9,7 +9,6 @@ const ProjectWrapper = props => {
 
     const storedToken = localStorage.getItem('authToken')
 
-    // const [project, setProject] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])
@@ -45,7 +44,7 @@ const ProjectWrapper = props => {
             .catch(error => console.log(error))
     }
     const getCurrentTask = currentTaskId => {
-        axios.get(`/api/tasks/${currentTaskId}`)
+        axios.get(`/api/tasks/${currentTaskId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
                 .then( taskFromDb => {
                     setCurrentTask(() => taskFromDb.data)
                     console.log(taskFromDb)
@@ -57,8 +56,6 @@ const ProjectWrapper = props => {
     return(
         <ProjectContext.Provider
             value={{
-                // project,
-                // setProject,
                 availableStatusses,
                 setAvailableStatusses,
                 projectMembers,

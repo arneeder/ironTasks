@@ -19,7 +19,7 @@ const TaskCard = props => {
                 >
                     <div>
                         <h4>{props.task?.name}</h4>
-                        <p>{props.task?.description}</p>
+                        <p>{<p>{props?.task.description.length > 50 ?`${props?.task.description.substring(0, 50)}...` : props?.task.description }</p>}</p>
                     </div>
                     <Button 
                         className={'btn-small'}

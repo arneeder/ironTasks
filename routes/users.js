@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User")
 const Project = require("../models/Project")
+const Task = require("../models/Task")
 
 router.get('/', (req, res, next) => {
     User.find()
@@ -18,8 +19,25 @@ router.get('/project/:id', (req, res, next) => {
     Project.findById(projectId)
         .populate('members')
         .then( project => {
-            console.log('Project Members: ', project.members)
             res.status(200).json(project.members)
+        } )
+        .catch( err => next(err) )
+
+});
+
+router.get('/task/:id', (req, res, next) => {
+    
+    const taskId = req.params.id
+
+    Task.findById(taskId)
+        .populate('accountable')
+        .populate('responsible')
+        .then( task => {
+             members = {
+                accountable: task.accountable,
+                responsible: task.responsible
+             }
+            res.status(200).json(members)
         } )
         .catch( err => next(err) )
 

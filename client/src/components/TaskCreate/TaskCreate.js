@@ -8,8 +8,9 @@ const CreateTask = () => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, project, setProject, availableStatusses, projectMembers } = useContext(ProjectContext)
+    const { getProject, availableStatusses, projectMembers } = useContext(ProjectContext)
 
+    const [project, setProject] = useState({})
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
@@ -54,7 +55,7 @@ const CreateTask = () => {
     }
 
     useEffect(() => {
-        getProject(id)
+        getProject(id, setProject)
     },[])
     
     return (

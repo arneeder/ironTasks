@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import Popup from '../../components/Popup/Popup';
@@ -11,9 +11,9 @@ import TaskDetail from '../../components/TaskDetail/TaskDetail';
 const ProjectDetail = () => {
     
     const { id } = useParams()
+    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail } = useContext(ProjectContext)
 
-
-    const { project, getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail } = useContext(ProjectContext)
+    const [project, setProject] = useState({})
 
 
     const onDragEnd = result => {
@@ -44,7 +44,7 @@ const ProjectDetail = () => {
             projectCopy.tasksByStatus.find(column => column.status._id === source.droppableId).tasks = startTaskArrAdjusted
 
             axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( project => getProject(id) )
+            .then( project => getProject(id, setProject) )
             .catch(error => console.log(error))
             return;
         }
@@ -60,11 +60,15 @@ const ProjectDetail = () => {
         projectCopy.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks = finishTaskArrAdjusted
 
         axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
-        .then( project => getProject(id))
+        .then( project => getProject(id, setProject))
         .catch(error => console.log(error))
         return;
 
     }
+
+    useEffect(() => {
+        getProject(id, setProject)
+    }, [])
 
     return (
         <>

@@ -12,6 +12,7 @@ const ProjectCard = props => {
     const storedToken = localStorage.getItem('authToken')
     const { getMyProjects } = useContext(MyProjectsContext)
     const { getProject, project, projectEdit, setProjectEdit } = useContext(ProjectContext)
+    //
     
     const handleDelete = e => {
         e.preventDefault()
@@ -24,7 +25,10 @@ const ProjectCard = props => {
             .catch(err => console.log(err))
     }
 
-    useEffect( () => getProject(props.projectId), [])
+    useEffect( () => {
+        getProject(props.projectId)
+
+    }, [])
 
     console.log(project);
   

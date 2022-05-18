@@ -9,7 +9,7 @@ const ProjectList = () => {
 
 
     useEffect(() => {getMyProjects()}, [])
-    console.log(myProjects[0]);
+    
     return (
         <>
             {

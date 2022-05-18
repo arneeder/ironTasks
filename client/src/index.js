@@ -14,13 +14,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <AuthProviderWrapper>
+    <ProjectWrapper>
         <UserWrapper>
-            <ProjectWrapper>
+            
                 <MyProjectsWrapper>
                     <App />
                 </MyProjectsWrapper>
-            </ProjectWrapper>
-        </UserWrapper>
+            
+            </UserWrapper>
+        </ProjectWrapper>
     </AuthProviderWrapper>
   </BrowserRouter>
 );

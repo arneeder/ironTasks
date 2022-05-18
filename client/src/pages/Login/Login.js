@@ -47,7 +47,7 @@ const Login = () => {
 
             <ButtonSubmit 
                 className={'primary'}
-                content={'Signup'}
+                content={'Login'}
             />
 
         </form>

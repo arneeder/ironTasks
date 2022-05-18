@@ -4,17 +4,27 @@ const Project = require("../models/Project")
 
 router.get('/', (req, res, next) => {
     User.find()
-        .then( users => res.status(200).json(users) )
+        .then( users => {
+            console.log('All Users: ', users);
+            res.status(200).json(users)
+        } )
         .catch( err => next(err) )
 });
 
-router.get('/project/:id')
-
+router.get('/project/:id', (req, res, next) => {
+    
     const projectId = req.params.id
 
     Project.findById(projectId)
         .populate('members')
-        .then( project => res.status(200).json(project.users) )
+        .then( project => {
+            console.log('Project Members: ', project.members)
+            res.status(200).json(project.members)
+        } )
         .catch( err => next(err) )
+
+});
+
+
 
 module.exports = router;

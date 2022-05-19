@@ -9,9 +9,8 @@ const ProjectEdit = props => {
     const {  getProject } = useContext(ProjectContext)
     const storedToken = localStorage.getItem('authToken')
 
-    const [project, setProject] = useState({})
-    const [name, setName] = useState(project.name)
-    const [description, setDescription] = useState(project.description)
+    const [name, setName] = useState(props.project?.name)
+    const [description, setDescription] = useState(props.project?.description)
     const [memberOptions, setMemberOptions] = useState([])
     const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
 
@@ -33,17 +32,19 @@ const ProjectEdit = props => {
             name: name,
             description: description,
             members: memberList,
-            tasksByStatus: project.tasksByStatus,
-            parentProject: project.parentProject,
-            childProjects: project.childProjects
+            tasksByStatus: props.project.tasksByStatus,
+            parentProject: props.project.parentProject,
+            childProjects: props.project.childProjects
         }
-
-        axios.put(`/api/projects/state/${project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( newProject => setProject( () => newProject ) )
-            .catch( err => console.log(err) )
         
-            props.getMyProjects()
-            getProject(project._id)
+        axios.put(`/api/projects/state/${props.project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
+            .then( newProject => {
+                console.log(newProject);
+                props.setProject( () => newProject )
+                props.getMyProjects()
+            })
+            .catch( err => console.log(err) )
+    
     }
 
     const getAllUsers = () => {
@@ -57,8 +58,8 @@ const ProjectEdit = props => {
             } )
             .catch( err => console.log(err) )
     }
-    const getProjectUsers = projectId => {
-        axios.get(`api/users/project/${projectId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+    const getProjectUsers = () => {
+        axios.get(`api/users/project/${props.project._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         .then( users => {
             const userNames = []
             users.data.forEach(user => {
@@ -70,10 +71,11 @@ const ProjectEdit = props => {
     }
 
     useEffect(() => {
-        getProject(project._id, setProject)
-        props.getMyProjects()
+        //getProject(props.project?._id, props.setProject)
+        //props.getMyProjects()
+        console.log(props.project);
         getAllUsers()
-        getProjectUsers(project._id)
+        getProjectUsers(props.project?._id)
     }, [])
     
     return (

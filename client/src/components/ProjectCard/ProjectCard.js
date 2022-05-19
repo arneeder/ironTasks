@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 import Button from '../Button/Button';
 import { ProjectContext } from '../../context/getProject';
+import Popup from '../Popup/Popup';
+import ProjectEdit from '../ProjectEdit/ProjectEdit';
 
 const ProjectCard = props => {
 
@@ -50,6 +52,16 @@ const ProjectCard = props => {
                     setTrigger={setProjectEdit}
                 />
             </div>
+            <Popup 
+                trigger={projectEdit}
+                setTrigger={setProjectEdit}
+            >
+                <ProjectEdit
+                    project={project}
+                    setProject={setProject}
+                    getMyProjects={props.getMyProjects} 
+                />
+            </Popup>
         </div>
   )
 }

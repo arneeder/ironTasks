@@ -51,6 +51,11 @@ const taskSchema = new Schema(
             }
         ],
         projects: [ projectReferenceSchema ],
+        statusCluster: {
+            type: String,
+            enum: ['not started', 'in progress', 'completed'],
+            default: 'not started'
+        }
     },
     {
         timestamps: true,

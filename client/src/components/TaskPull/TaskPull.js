@@ -14,7 +14,7 @@ const TaskPull = props => {
 
     const [myTasks, setMyTasks] = useState([])
     const [newTask, setNewTask] = useState({})
-    const [status, setStatus] = useState(props.status._id)
+    const [status, setStatus] = useState(props.status)
     const [projectTasks, setProjectTasks] = useState([])
 
     const getAvailableStatusses = () => {
@@ -65,7 +65,7 @@ const TaskPull = props => {
             .catch(error => console.log(error))
         const updateParameterProject = {
             oldProject: props.project,
-            statusId: status,
+            statusId: status._id,
             taskId: newTask._id
         }
         axios.put(`/api/projects/${id}`, updateParameterProject, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -82,7 +82,7 @@ const TaskPull = props => {
         setTaskCreate( () => false )
         getUserTasks()
         getAvailableStatusses()
-        if (!status) setStatus(() => status._id)
+        if (!status) setStatus(() => status)
         getTaskList()
     }, [])
 
@@ -97,9 +97,13 @@ const TaskPull = props => {
                 <Multiselect
                     className="task-pull-select"
                     options={
-                        myTasks.filter( mytask => (
-                            !projectTasks.includes( mytask._id )
-                        ))
+                        myTasks
+                            .filter( myTask => (
+                            !projectTasks.includes( myTask._id )
+                            ))
+                            .filter( additionalTask => (
+                                additionalTask.status?.cluster === status.cluster
+                            ) )
                     }
                     onSelect={onMemberSelect}
                     displayValue="name"

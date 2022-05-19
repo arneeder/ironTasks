@@ -11,7 +11,7 @@ import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const { getProject, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull } = useContext(ProjectContext)
+    const { getProject, taskDetail, setTaskDetail, columnCreate, setColumnCreate } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
 
@@ -87,6 +87,25 @@ const ProjectDetail = () => {
             axios.put(`/api/projects/state/${id}`, projectCopy, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( project => getProject(id, setProject))
             .catch(error => console.log(error))
+
+            const statusId = destination.droppableId
+            const task = draggedElement[0]
+
+            axios.get(`/api/status/cluster/${statusId}`)
+                .then(cluster => {
+                    console.log(cluster)
+                    const statusCluster = cluster.data
+                    task.statusCluster = statusCluster
+                    
+                    axios.put(`/api/tasks/${task._id}`, task, { headers: { Authorization: `Bearer ${storedToken}` } })
+                        .then(newTask => console.log(newTask))
+                        .catch(error => console.log(error))
+
+                })
+                .catch(error => console.log(error))
+            
+            console.log(task);
+
             return;
 
         }

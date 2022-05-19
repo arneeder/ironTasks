@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Task = require("../models/Task");
 const Project = require("../models/Project");
+const Status = require("../models/Status")
 
 // show all tasks of boards I am a member of
 router.get('/', (req, res, next) => {
@@ -41,7 +42,7 @@ router.get('/project/:id', (req, res, next) => {
 
 router.post('/project/:id', (req, res, next) => {
     
-    const { name, description, accountable, responsible, projects } = req.body
+    const { name, description, accountable, responsible, projects, statusCluster } = req.body
     const projectId = req.params.id
 
     Task.create( { name, description, accountable, responsible, projects } )
@@ -58,23 +59,23 @@ router.get('/:id', (req, res, next) => {
         .populate('responsible')
         .then( task => {
             console.log(task)
-            res.status(201).json(task)    
+            res.status(201).json(task)
             
 }       )
         .catch(err => next(err))
 });
 
-
 router.put('/:id', (req, res, next) => {
-    
-    const taskId = req.params.id
-    const newTask = req.body
-
-    Task.findByIdAndUpdate(taskId, newTask)
-        .then( task => {
-            console.log('Updated task: ', task);
+    const taskId = req.params._id
+    const task = req.body
+    console.log({taskId})
+    Task.findByIdAndUpdate(taskId, task)   
+        .then( updatedTask => {
+            console.log(task)
             res.status(201).json(task)
         })
         .catch(err => next(err))
 });
+
+
 module.exports = router;

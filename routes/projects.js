@@ -60,7 +60,7 @@ router.get('/:id', (req, res, next) => {
         })
         .then( project => {
             res.status(200).json(project)
-            console.log(project);
+            //console.log(project);
         })
         .catch(err => next(err))
 });

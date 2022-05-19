@@ -31,7 +31,7 @@ const tasks = require("./routes/tasks");
 app.use("/api/tasks", isAuthenticated, tasks);
 
 const status = require("./routes/status");
-app.use("/api/status", isAuthenticated, status);
+app.use("/api/status", status);
 
 const users = require("./routes/users");
 app.use("/api/users", isAuthenticated, users);

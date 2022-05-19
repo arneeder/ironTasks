@@ -21,7 +21,8 @@ const CreateTask = props => {
     const handleSubmit = e => {
         e.preventDefault()
         const projects = [{project: id, status: props.status}]
-        const requestBody = { name, description, accountable, responsible, projects }
+        const statusCluster = props.status.cluster
+        const requestBody = { name, description, accountable, responsible, projects, statusCluster }
         postNewTask(requestBody)
         getProject(id)
         props.setTaskCreate( () => false )

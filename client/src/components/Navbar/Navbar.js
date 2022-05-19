@@ -20,7 +20,9 @@ const Navbar = () => {
 						<Link to='/main'>
 							<p className='navbar-link'>My Projects</p>
 						</Link>
-						<p className='navbar-link' onClick={logoutUser}>Log out</p>
+                        <Link to='/login'>
+						    <p className='navbar-link' onClick={logoutUser}>Log out</p>
+                        </Link>
 					</>
 				) : (
 					<>

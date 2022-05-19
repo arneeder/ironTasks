@@ -3,12 +3,13 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProjectContext } from '../../context/getProject';
+import Button from '../Button/Button'
 
 const CreateTask = () => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, availableStatusses, projectMembers } = useContext(ProjectContext)
+    const { getProject, availableStatusses, projectMembers, taskPull, setTaskPull } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
     const [name, setName] = useState('')
@@ -108,6 +109,12 @@ const CreateTask = () => {
                 </div>
 
                 <button type="submit">Create Task</button>
+                <Button 
+                    className={'btn-small'}
+                    content={'Pull existent task'}
+                    trigger={taskPull}
+                    setTrigger={setTaskPull}
+            />
             </form>
         </>
   )

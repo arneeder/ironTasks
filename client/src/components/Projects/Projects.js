@@ -1,14 +1,12 @@
 import './index.css'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProjectCreate from '../ProjectCreate/ProjectCreate'
 import ProjectList from '../ProjectList/ProjectList'
-import { ProjectContext } from '../../context/getProject'
 import axios from 'axios'
 
 const Projects = () => {
 
     const storedToken = localStorage.getItem('authToken')
-    const { projectEdit, setProjectEdit } = useContext(ProjectContext)
 
     const [myProjects, setMyProjects] = useState([])
 

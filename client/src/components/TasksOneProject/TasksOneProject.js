@@ -35,11 +35,11 @@ const TasksOneProject = () => {
                 ))
             }
             <Button 
-                    className={'btn-round'}
-                    content={'+'}
-                    trigger={columnCreate}
-                    setTrigger={setColumnCreate}
-                />
+                className={'btn-round'}
+                content={'+'}
+                trigger={columnCreate}
+                setTrigger={setColumnCreate}
+            />
         {provided.placeholder}
         </div>
         )}

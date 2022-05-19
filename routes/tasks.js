@@ -6,6 +6,7 @@ const Project = require("../models/Project");
 router.get('/', (req, res, next) => {
     
     const userId = req.payload._id
+    console.log(userId);
     
     Project.find({members: userId})
         .then( projects => {
@@ -14,7 +15,7 @@ router.get('/', (req, res, next) => {
             projects.forEach( project => {
                 myProjectIds.push(String(project._id))
             })
-            Task.find({projects: {$in: myProjectIds}})
+            Task.find({'projects.project': {$in: myProjectIds}})
                 .then( tasks => {
                     res.status(200).json(tasks)
                 })

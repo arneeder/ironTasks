@@ -6,7 +6,7 @@ import StatusColumn from '../StatusColumn/StatusColumn';
 import Button from '../Button/Button';
 import { Droppable } from 'react-beautiful-dnd';
 
-const TasksOneProject = () => {
+const TasksOneProject = props => {
 
     const { id } = useParams()
     const { getProject, tasks, columnCreate, setColumnCreate } = useContext(ProjectContext)
@@ -31,6 +31,8 @@ const TasksOneProject = () => {
                         status={taskColumn.status}
                         tasks={taskColumn.tasks} 
                         index={index}
+                        setProject={props.setProject}
+                        project={props.project}
                         />
                 ))
             }

@@ -5,12 +5,12 @@ import TaskCard from '../TaskCard/TaskCard';
 import Button from '../Button/Button';
 import Popup from '../Popup/Popup';
 import TaskCreate from '../TaskCreate/TaskCreate';
+import TaskPull from '../../components/TaskPull/TaskPull';
 
 const StatusColumn = props => {
 
-    //const { taskCreate, setTaskCreate } = useContext(ProjectContext)
-
-const [taskCreate, setTaskCreate] = useState(false)
+    const [taskCreate, setTaskCreate] = useState(false)
+    const [taskPull, setTaskPull] = useState(false)
 
     return (
         <>
@@ -59,7 +59,22 @@ const [taskCreate, setTaskCreate] = useState(false)
             trigger={taskCreate}
             setTrigger={setTaskCreate}
         >
-            <TaskCreate status={props.status._id} />
+            <TaskCreate 
+                status={props.status._id} 
+                setTaskCreate={setTaskCreate}
+                setTaskPull={setTaskPull}
+            />
+        </Popup>
+        
+        <Popup
+            trigger={taskPull}
+            setTrigger={setTaskPull}
+        >
+            <TaskPull
+                setProject={props.setProject}
+                project={props.project}
+                status={props.status}
+            />
         </Popup>
     </>
     )

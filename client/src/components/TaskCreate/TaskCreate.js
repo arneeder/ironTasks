@@ -21,15 +21,21 @@ const CreateTask = props => {
     const handleSubmit = e => {
         e.preventDefault()
         const projects = [{project: id, status: props.status}]
-        const requestBody = { name, description, accountable, responsible, projects }
+        const statusCluster = props.status.cluster
+        const requestBody = { name, description, accountable, responsible, projects, statusCluster }
         postNewTask(requestBody)
         getProject(id)
+        props.setTaskCreate( () => false )
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
     const handleAccountable = e => setAccountable(() => e.target.value)
     const handleResponsible = e => setResponsible(() => e.target.value)
     //const handleStaus = e => setStatus(() => e.target.value)
+    const pullHandle = () => {
+        props.setTaskCreate( false )
+        props.setTaskPull( true )
+    }
 
     const postNewTask = requestBody => {
         axios.post(`/api/tasks/project/${id}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -50,7 +56,6 @@ const CreateTask = props => {
                 setDescription( () => '' )
                 setAccountable( () => '' )
                 setResponsible( () => '' )
-                //setStatus( () => '' )
             })
             .catch(error => console.log(error))
     }
@@ -96,25 +101,16 @@ const CreateTask = props => {
                     </select>
                 </div>
 
-                {/* <div className="container-formfield">
-                    <label htmlFor="status">Status: </label>
-                    <select value={status} onChange={handleStaus}>
-                    <option>--choose--</option>
-                        {
-                            availableStatusses.map( status => (
-                                <option key={status._id} value={status._id}>{status.name}</option>
-                            ))
-                        }
-                    </select>
-                </div> */}
-
                 <button type="submit">Create Task</button>
+            </form>
+            <form onSubmit={ pullHandle  }>
                 <Button 
-                    className={'btn-small'}
-                    content={'Pull existent task'}
-                    trigger={taskPull}
-                    setTrigger={setTaskPull}
-            />
+                        className={'btn-small'}
+                        content={'Pull existent task'}
+                        trigger={taskPull}
+                        setTrigger={setTaskPull}
+                        type='submit'
+                />
             </form>
         </>
   )

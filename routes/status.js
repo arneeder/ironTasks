@@ -33,4 +33,13 @@ router.get('/project/:id', (req, res, next) => {
         .catch(err => next(err))
 });
 
+router.get('/cluster/:id', (req, res, next) => {
+    const statusId = req.params.id
+    Status.findById(statusId)
+        .then( status => {
+            res.status(200).json(status.cluster)
+        })
+        .catch(err => next(err))
+});
+
 module.exports = router;

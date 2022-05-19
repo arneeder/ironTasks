@@ -15,7 +15,7 @@ const TaskPull = props => {
     const [myTasks, setMyTasks] = useState([])
     const [newTask, setNewTask] = useState({})
     const [status, setStatus] = useState(props.status._id)
-    // const [availableStausses, setAvailableStausses] = useState([])
+    const [projectTasks, setProjectTasks] = useState([])
 
     const getAvailableStatusses = () => {
         const availableStatusList = []
@@ -23,6 +23,19 @@ const TaskPull = props => {
             availableStatusList.push(statusWithTasks.status)
             // setAvailableStausses( () => availableStatusList )
         })
+    }
+    const getTaskList = () => {
+        const taskList = []
+        props.project.tasksByStatus.forEach(
+            tasklist => {
+                tasklist.tasks.forEach(
+                    task => {
+                        taskList.push(task._id)
+                    }
+                )
+            }
+        )
+        setProjectTasks(taskList)
     }
 
 
@@ -70,8 +83,11 @@ const TaskPull = props => {
         getUserTasks()
         getAvailableStatusses()
         if (!status) setStatus(() => status._id)
-    }, [])    
+        getTaskList()
+    }, [])
 
+    
+    console.log(projectTasks);
     return (
         <div className='task-pull-container'>
             <header className='header-task-pull'>
@@ -80,7 +96,11 @@ const TaskPull = props => {
             <form className='task-pull-content' onSubmit={handleSubmit}>
                 <Multiselect
                     className="task-pull-select"
-                    options={myTasks}
+                    options={
+                        myTasks.filter( mytask => (
+                            !projectTasks.includes( mytask._id )
+                        ))
+                    }
                     onSelect={onMemberSelect}
                     displayValue="name"
                     showCheckbox={true}

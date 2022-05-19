@@ -51,7 +51,6 @@ const CreateTask = props => {
                 setDescription( () => '' )
                 setAccountable( () => '' )
                 setResponsible( () => '' )
-                //setStatus( () => '' )
             })
             .catch(error => console.log(error))
     }
@@ -96,18 +95,6 @@ const CreateTask = props => {
                         }
                     </select>
                 </div>
-
-                {/* <div className="container-formfield">
-                    <label htmlFor="status">Status: </label>
-                    <select value={status} onChange={handleStaus}>
-                    <option>--choose--</option>
-                        {
-                            availableStatusses.map( status => (
-                                <option key={status._id} value={status._id}>{status.name}</option>
-                            ))
-                        }
-                    </select>
-                </div> */}
 
                 <button type="submit">Create Task</button>
             </form>

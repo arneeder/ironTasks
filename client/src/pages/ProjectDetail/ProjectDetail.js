@@ -105,7 +105,7 @@ const ProjectDetail = () => {
                         trigger={taskPull}
                         setTrigger={setTaskPull}
                     >
-                        <TaskPull />
+                        <TaskPull setProject={setProject} project={project}/>
                     </Popup>
 
                     <Popup 

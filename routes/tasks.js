@@ -64,4 +64,17 @@ router.get('/:id', (req, res, next) => {
         .catch(err => next(err))
 });
 
+
+router.put('/:id', (req, res, next) => {
+    
+    const taskId = req.params.id
+    const newTask = req.body
+
+    Task.findByIdAndUpdate(taskId, newTask)
+        .then( task => {
+            console.log('Updated task: ', task);
+            res.status(201).json(task)
+        })
+        .catch(err => next(err))
+});
 module.exports = router;

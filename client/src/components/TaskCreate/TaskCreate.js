@@ -3,23 +3,24 @@ import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProjectContext } from '../../context/getProject';
+import Button from '../Button/Button'
 
-const CreateTask = () => {
+const CreateTask = props => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, availableStatusses, projectMembers } = useContext(ProjectContext)
+    const { getProject, availableStatusses, projectMembers, taskPull, setTaskPull } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [accountable, setAccountable] = useState('')
     const [responsible, setResponsible] = useState('')
-    const [status, setStatus] = useState('')
+    //const [status, setStatus] = useState('')
     
     const handleSubmit = e => {
         e.preventDefault()
-        const projects = [{project: id, status: status}]
+        const projects = [{project: id, status: props.status}]
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
         getProject(id)
@@ -28,7 +29,7 @@ const CreateTask = () => {
     const handleDescription = e => setDescription(() => e.target.value)
     const handleAccountable = e => setAccountable(() => e.target.value)
     const handleResponsible = e => setResponsible(() => e.target.value)
-    const handleStaus = e => setStatus(() => e.target.value)
+    //const handleStaus = e => setStatus(() => e.target.value)
 
     const postNewTask = requestBody => {
         axios.post(`/api/tasks/project/${id}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -37,7 +38,7 @@ const CreateTask = () => {
                 
                 const updateParameter = {
                     oldProject: project,
-                    statusId: status,
+                    statusId: props.status,
                     taskId: taskId
                 }
 
@@ -49,7 +50,7 @@ const CreateTask = () => {
                 setDescription( () => '' )
                 setAccountable( () => '' )
                 setResponsible( () => '' )
-                setStatus( () => '' )
+                //setStatus( () => '' )
             })
             .catch(error => console.log(error))
     }
@@ -95,7 +96,7 @@ const CreateTask = () => {
                     </select>
                 </div>
 
-                <div className="container-formfield">
+                {/* <div className="container-formfield">
                     <label htmlFor="status">Status: </label>
                     <select value={status} onChange={handleStaus}>
                     <option>--choose--</option>
@@ -105,9 +106,15 @@ const CreateTask = () => {
                             ))
                         }
                     </select>
-                </div>
+                </div> */}
 
                 <button type="submit">Create Task</button>
+                <Button 
+                    className={'btn-small'}
+                    content={'Pull existent task'}
+                    trigger={taskPull}
+                    setTrigger={setTaskPull}
+            />
             </form>
         </>
   )

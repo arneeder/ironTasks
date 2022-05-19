@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = React.createContext()
 
@@ -42,7 +42,6 @@ function AuthProviderWrapper(props) {
 		// update the state
 		setIsLoggedIn(false)
 		setUser(null)
-
 	}
 
 	useEffect(() => {

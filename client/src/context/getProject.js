@@ -9,16 +9,18 @@ const ProjectWrapper = props => {
 
     const storedToken = localStorage.getItem('authToken')
 
+    const [projectPopup, setProjectPopup] = useState([])
     const [availableStatusses, setAvailableStatusses] = useState([])
     const [projectMembers, setProjectMembers] = useState([])
     const [tasks, setTasks] = useState([])
     const [taskCreate, setTaskCreate] = useState(false)
+    const [taskPull, setTaskPull] = useState(false)
     const [taskDetail, setTaskDetail] = useState(false)
     const [columnCreate, setColumnCreate] = useState(false)
     const [currentTask, setCurrentTask] = useState('')
-    const [projectEdit, setProjectEdit] = useState(false)
+    // const [projectEdit, setProjectEdit] = useState(false)
 
-    const getProject = ( projectId, setProject ) => {
+    const getProject = ( projectId, setProject='' ) => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
             .then( projectFromDb => {
               const availableStatusses = []
@@ -40,7 +42,8 @@ const ProjectWrapper = props => {
               setTasks(() => tasks)
               setProjectMembers(() => projectMembers)
               setAvailableStatusses(() => availableStatusses)
-              setProject(() => projectFromDb.data)
+              if (setProject) setProject(() => projectFromDb.data)
+              setProjectPopup(() => projectFromDb.data)
             })
             .catch(error => console.log(error))
     }
@@ -57,6 +60,8 @@ const ProjectWrapper = props => {
     return(
         <ProjectContext.Provider
             value={{
+                projectPopup,
+                setProjectPopup,
                 availableStatusses,
                 setAvailableStatusses,
                 projectMembers,
@@ -66,14 +71,16 @@ const ProjectWrapper = props => {
                 getProject,
                 taskCreate,
                 setTaskCreate,
+                taskPull,
+                setTaskPull,
                 taskDetail,
                 setTaskDetail,
                 columnCreate,
                 setColumnCreate,
                 currentTask,
                 getCurrentTask,
-                projectEdit,
-                setProjectEdit
+                // projectEdit,
+                // setProjectEdit
                 }}>
 			{props.children}
 		</ProjectContext.Provider>

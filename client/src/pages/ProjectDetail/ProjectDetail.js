@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import Popup from '../../components/Popup/Popup';
-import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
+import TaskPull from '../../components/TaskPull/TaskPull';
 
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail, columnCreate, setColumnCreate } = useContext(ProjectContext)
+    const { getProject, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
 
@@ -30,7 +30,7 @@ const ProjectDetail = () => {
             return
         }
 
-        console.log(type);
+        // move columns
         if(type === 'column') {
             const newColumnOrder = project.tasksByStatus
             const draggedElement = newColumnOrder.splice(source.index, 1)
@@ -50,13 +50,16 @@ const ProjectDetail = () => {
             .catch(error => console.log(error))
 
             return;
-        } else {
+        } 
+        // move tasks
+        else {
             const startTaskArr = project.tasksByStatus.find(column => column.status._id === source.droppableId).tasks
             const finishTaskArr = project.tasksByStatus.find(column => column.status._id === destination.droppableId).tasks
     
             const startColumn = source.droppableId
             const finishColumn = destination.droppableId
-    
+            
+            //move tasks within one column
             if (startColumn === finishColumn) {
                 const startTaskArrAdjusted = Array.from(startTaskArr)
                 const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
@@ -70,7 +73,8 @@ const ProjectDetail = () => {
                 .catch(error => console.log(error))
                 return;
             }
-    
+            
+            // move tasks between columns
             const startTaskArrAdjusted = Array.from(startTaskArr)
             const draggedElement = startTaskArrAdjusted.splice(source.index, 1)
             
@@ -87,9 +91,6 @@ const ProjectDetail = () => {
             return;
 
         }
-
-
-
     }
 
     useEffect(() => {
@@ -99,24 +100,28 @@ const ProjectDetail = () => {
     return (
         <div className='project-board-container'>
             <DragDropContext onDragEnd={onDragEnd}>
-                    <Popup 
-                        trigger={taskCreate}
-                        setTrigger={setTaskCreate}
+
+                    <Popup
+                        trigger={taskPull}
+                        setTrigger={setTaskPull}
                     >
-                        <TaskCreate />
+                        <TaskPull />
                     </Popup>
+
                     <Popup 
                         trigger={taskDetail}
                         setTrigger={setTaskDetail}
                     >
                         <TaskDetail projectId={id} />
                     </Popup>
+
                     <Popup 
                         trigger={columnCreate}
                         setTrigger={setColumnCreate}
                     >
                         <ColumnCreate projectId={id} />
                     </Popup>
+
                     <TasksOneProject />
              </DragDropContext>
         </div>

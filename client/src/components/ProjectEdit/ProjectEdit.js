@@ -1,12 +1,16 @@
 import './index.css';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
+import { ProjectContext } from '../../context/getProject';
+
 
 const ProjectEdit = props => {
     
+    //const { props.project, setProjectPopup } = useContext(ProjectContext)
+    
     const storedToken = localStorage.getItem('authToken')
-
+    
     const [name, setName] = useState(props.project?.name)
     const [description, setDescription] = useState(props.project?.description)
     const [memberOptions, setMemberOptions] = useState([])
@@ -37,9 +41,7 @@ const ProjectEdit = props => {
         
         axios.put(`/api/projects/state/${props.project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( newProject => {
-                console.log(newProject);
-                props.setProject( () => newProject )
-                props.getProject(props.project._id, props.setProject)
+                props.getMyProjects()
                 props.setTrigger( () => !props.trigger)
             })
             .catch( err => console.log(err) )
@@ -58,7 +60,7 @@ const ProjectEdit = props => {
             .catch( err => console.log(err) )
     }
     const getProjectUsers = () => {
-        axios.get(`api/users/project/${props.project._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+        axios.get(`api/users/project/${props.project?._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         .then( users => {
             const userNames = []
             users.data.forEach(user => {
@@ -70,8 +72,8 @@ const ProjectEdit = props => {
     }
 
     useEffect(() => {
-        props.getProject(props.project._id, props.setProject)
-        console.log(props.project);
+        //props.getProject(props.project._id, setProjectPopup)
+        //console.log(props.project);
         getAllUsers()
         getProjectUsers(props.project?._id)
     }, [])

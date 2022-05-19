@@ -1,0 +1,23 @@
+.task-pull-container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+.header-task-pull {
+    padding: 20px;
+    height: 70%;
+    border-right: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-pull-content {
+    min-width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.task-pull-select {
+    min-width: 250px;
+}

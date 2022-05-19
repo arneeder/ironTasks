@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import './index.css'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from '../TaskCard/TaskCard';
 import Button from '../Button/Button';
-import { ProjectContext } from '../../context/getProject';
+import Popup from '../Popup/Popup';
+import TaskCreate from '../TaskCreate/TaskCreate';
 
 const StatusColumn = props => {
 
-    const { taskCreate, setTaskCreate } = useContext(ProjectContext)
+    //const { taskCreate, setTaskCreate } = useContext(ProjectContext)
+
+const [taskCreate, setTaskCreate] = useState(false)
 
     return (
+        <>
         <Draggable draggableId={props.status._id} index={props.index}>
         {(provided, snapshot) => (
             <div className='column-container'
@@ -50,7 +54,14 @@ const StatusColumn = props => {
         </div>
         )}
         </Draggable>
-        
+
+        <Popup 
+            trigger={taskCreate}
+            setTrigger={setTaskCreate}
+        >
+            <TaskCreate status={props.status._id} />
+        </Popup>
+    </>
     )
 }
 

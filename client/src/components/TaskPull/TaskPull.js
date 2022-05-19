@@ -59,6 +59,7 @@ const TaskPull = props => {
             .then( project => {
                 props.setProject( () => project)
                 getProject(props.project._id, props.setProject)
+                
             })
             .catch(error => console.log(error))
         

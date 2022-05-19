@@ -31,6 +31,10 @@ const CreateTask = props => {
     const handleAccountable = e => setAccountable(() => e.target.value)
     const handleResponsible = e => setResponsible(() => e.target.value)
     //const handleStaus = e => setStatus(() => e.target.value)
+    const pullHandle = () => {
+        props.setTaskCreate( false )
+        props.setTaskPull( true )
+    }
 
     const postNewTask = requestBody => {
         axios.post(`/api/tasks/project/${id}`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -98,7 +102,7 @@ const CreateTask = props => {
 
                 <button type="submit">Create Task</button>
             </form>
-            <form onSubmit={ () => props.setTaskCreate( false ) }>
+            <form onSubmit={ pullHandle  }>
                 <Button 
                         className={'btn-small'}
                         content={'Pull existent task'}

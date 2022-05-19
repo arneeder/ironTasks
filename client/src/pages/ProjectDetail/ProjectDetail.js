@@ -7,7 +7,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
-import TaskPull from '../../components/TaskPull/TaskPull';
 
 const ProjectDetail = () => {
     
@@ -101,13 +100,6 @@ const ProjectDetail = () => {
         <div className='project-board-container'>
             <DragDropContext onDragEnd={onDragEnd}>
 
-                    <Popup
-                        trigger={taskPull}
-                        setTrigger={setTaskPull}
-                    >
-                        <TaskPull setProject={setProject} project={project}/>
-                    </Popup>
-
                     <Popup 
                         trigger={taskDetail}
                         setTrigger={setTaskDetail}
@@ -122,7 +114,7 @@ const ProjectDetail = () => {
                         <ColumnCreate projectId={id} />
                     </Popup>
 
-                    <TasksOneProject />
+                    <TasksOneProject setProject={setProject} project={project} />
              </DragDropContext>
         </div>
     )

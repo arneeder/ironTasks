@@ -70,7 +70,11 @@ const StatusColumn = props => {
             trigger={taskPull}
             setTrigger={setTaskPull}
         >
-            <TaskPull setProject={props.setProject} project={props.project}/>
+            <TaskPull
+                setProject={props.setProject}
+                project={props.project}
+                status={props.status}
+            />
         </Popup>
     </>
     )

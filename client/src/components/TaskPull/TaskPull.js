@@ -14,14 +14,14 @@ const TaskPull = props => {
 
     const [myTasks, setMyTasks] = useState([])
     const [newTask, setNewTask] = useState({})
-    const [status, setStatus] = useState({})
-    const [availableStausses, setAvailableStausses] = useState([])
+    const [status, setStatus] = useState(props.status._id)
+    // const [availableStausses, setAvailableStausses] = useState([])
 
     const getAvailableStatusses = () => {
         const availableStatusList = []
         props.project.tasksByStatus.forEach(statusWithTasks => {
             availableStatusList.push(statusWithTasks.status)
-            setAvailableStausses( () => availableStatusList )
+            // setAvailableStausses( () => availableStatusList )
         })
     }
 
@@ -37,9 +37,9 @@ const TaskPull = props => {
     const onMemberSelect = (selectedList, selectedItem) => {
         setNewTask( () => selectedItem )
     }
-    const onStatusSelect =  (selectedList, selectedItem) => {
-        setStatus( () => selectedItem._id )
-    }
+    // const onStatusSelect =  (selectedList, selectedItem) => {
+    //     setStatus( () => selectedItem._id )
+    // }
     const handleSubmit = e => {
         e.preventDefault()
         const newProjectsForTask = newTask.projects
@@ -59,7 +59,7 @@ const TaskPull = props => {
             .then( project => {
                 props.setProject( () => project)
                 getProject(props.project._id, props.setProject)
-                
+
             })
             .catch(error => console.log(error))
         
@@ -69,6 +69,7 @@ const TaskPull = props => {
         setTaskCreate( () => false )
         getUserTasks()
         getAvailableStatusses()
+        if (!status) setStatus(() => status._id)
     }, [])    
 
     return (
@@ -85,14 +86,14 @@ const TaskPull = props => {
                     showCheckbox={true}
                     singleSelect={true}
                 />
-                <Multiselect
+                {/* <Multiselect
                     className="task-pull-select"
                     options={availableStausses}
                     onSelect={onStatusSelect}
                     displayValue="name"
                     showCheckbox={true}
                     singleSelect={true}
-                />
+                /> */}
                 <ButtonSubmit 
                     className={"btn-small"}
                     content={'Add To Board'}

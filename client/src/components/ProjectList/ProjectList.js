@@ -8,7 +8,10 @@ const ProjectList = props => {
         <>
             {
                 props.myProjects.map( project => (
-                    <ProjectCard key={project._id} projectId={project._id} />
+                    <ProjectCard key={project._id}
+                    projectId={project._id}
+                    getMyProjects={props.getMyProjects}
+                />
                 ))
             }
         </>

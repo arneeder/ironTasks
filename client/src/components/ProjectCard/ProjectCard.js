@@ -1,7 +1,6 @@
 import axios from 'axios';
 import './index.css';
 import React, { useContext, useEffect, useState } from 'react';
-import { MyProjectsContext } from '../../context/getMyProjects';
 import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 import Button from '../Button/Button';
@@ -10,7 +9,6 @@ import { ProjectContext } from '../../context/getProject';
 const ProjectCard = props => {
 
     const storedToken = localStorage.getItem('authToken')
-    const { getMyProjects } = useContext(MyProjectsContext)
     const { getProject, projectEdit, setProjectEdit } = useContext(ProjectContext)
     
     const [project, setProject] = useState([])
@@ -20,8 +18,8 @@ const ProjectCard = props => {
         const projectId = e.target[0].value
         axios.delete(`/api/projects/${projectId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then(() => {
-                getMyProjects()
-                return getMyProjects
+                props.getMyProjects()
+                return props.getMyProjects()
             })
             .catch(err => console.log(err))
     }

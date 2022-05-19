@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProviderWrapper } from './context/auth';
-import { MyProjectsWrapper } from './context/getMyProjects';
 import { ProjectWrapper } from './context/getProject';
 import { UserWrapper } from './context/userContext';
 // import { ProjectProviderWrapper } from './context/getProject';
@@ -14,13 +13,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <AuthProviderWrapper>
-    <ProjectWrapper>
-        <UserWrapper>
-            
-                <MyProjectsWrapper>
-                    <App />
-                </MyProjectsWrapper>
-            
+        <ProjectWrapper>
+            <UserWrapper>
+                <App />
             </UserWrapper>
         </ProjectWrapper>
     </AuthProviderWrapper>

@@ -1,15 +1,13 @@
 import './index.css'
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import { MyProjectsContext } from '../../context/getMyProjects';
 
-const ProjectCreate = () => {
+const ProjectCreate = props => {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const storedToken = localStorage.getItem('authToken')
-    const { getMyProjects } = useContext(MyProjectsContext)
     
     const handleSubmit = e => {
         e.preventDefault()
@@ -17,7 +15,7 @@ const ProjectCreate = () => {
             .then( response => {
                 setName(() => '')
                 setDescription(() => '')
-                getMyProjects()
+                props.getMyProjects()
             })
             .catch(err => console.log(err))
     }

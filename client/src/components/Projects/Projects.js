@@ -27,13 +27,16 @@ const Projects = () => {
     return (
         <>
             <h2>Projects</h2>
-            <ProjectCreate  />
-            <ProjectList myProjects={myProjects}  />
+            <ProjectCreate getMyProjects={getMyProjects}/>
+            <ProjectList
+                myProjects={myProjects}  
+                getMyProjects={getMyProjects}
+            />
             <Popup 
                 trigger={projectEdit}
                 setTrigger={setProjectEdit}
             >
-                <ProjectEdit />
+                <ProjectEdit getMyProjects={getMyProjects} />
             </Popup>
         </>
     )

@@ -1,11 +1,22 @@
 import './index.css'
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MyProjectsContext } from '../../context/getMyProjects';
 import ProjectCard from '../ProjectCard/ProjectCard';
+import axios from 'axios';
 
 const ProjectList = () => {
+
+    const storedToken = localStorage.getItem('authToken')
     
-    const { getMyProjects, myProjects } = useContext(MyProjectsContext)
+    const [myProjects, setMyProjects] = useState([])
+
+    const getMyProjects = () => {
+        axios.get('/api/projects/',  { headers: { Authorization: `Bearer ${storedToken}` } } )
+            .then( myProjects => {
+              setMyProjects(() => myProjects.data)
+            })
+            .catch(error => console.log(error))
+      }
 
 
     useEffect(() => {getMyProjects()}, [])

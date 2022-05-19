@@ -102,7 +102,7 @@ const TaskPull = props => {
                             !projectTasks.includes( myTask._id )
                             ))
                             .filter( additionalTask => (
-                                additionalTask.status?.cluster === status.cluster
+                                additionalTask.statusCluster === status.cluster
                             ) )
                     }
                     onSelect={onMemberSelect}

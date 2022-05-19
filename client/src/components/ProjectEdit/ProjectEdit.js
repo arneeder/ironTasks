@@ -41,9 +41,6 @@ const ProjectEdit = props => {
         
         axios.put(`/api/projects/state/${props.project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( newProject => {
-                //console.log(newProject);
-                //setProjectPopup( () => newProject )
-                //setProjectPopup(props.project._id, setProjectPopup)
                 props.getMyProjects()
                 props.setTrigger( () => !props.trigger)
             })

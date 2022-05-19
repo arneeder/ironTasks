@@ -2,19 +2,17 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
 import Popup from '../../components/Popup/Popup';
-import TaskCreate from '../../components/TaskCreate/TaskCreate';
 import TasksOneProject from '../../components/TasksOneProject/TasksOneProject';
 import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
 import TaskPull from '../../components/TaskPull/TaskPull';
-import ProjectEdit from '../../components/ProjectEdit/ProjectEdit';
 
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull, projectEdit, setProjectEdit } = useContext(ProjectContext)
+    const { getProject, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
 
@@ -102,12 +100,6 @@ const ProjectDetail = () => {
     return (
         <div className='project-board-container'>
             <DragDropContext onDragEnd={onDragEnd}>
-                    <Popup 
-                        trigger={taskCreate}
-                        setTrigger={setTaskCreate}
-                    >
-                        <TaskCreate />
-                    </Popup>
 
                     <Popup
                         trigger={taskPull}
@@ -128,20 +120,6 @@ const ProjectDetail = () => {
                         setTrigger={setColumnCreate}
                     >
                         <ColumnCreate projectId={id} />
-                    </Popup>
-
-                    <Popup 
-                        trigger={columnCreate}
-                        setTrigger={setProjectEdit}
-                    >
-                        <ProjectEdit
-                            project={project}
-                            setProject={setProject}
-                            //getMyProjects={props.getMyProjects} 
-                            getProject={getProject}
-                            //trigger={projectEdit}
-                            //setTrigger={setProjectEdit}
-                        />
                     </Popup>
 
                     <TasksOneProject />

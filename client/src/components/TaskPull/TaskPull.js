@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 const TaskPull = props => {
 
     const storedToken = localStorage.getItem('authToken')
-    const { setTaskCreate } = useContext(ProjectContext)
+    const { setTaskCreate, getProject } = useContext(ProjectContext)
     const { id } = useParams()
 
     const [myTasks, setMyTasks] = useState([])
@@ -56,7 +56,10 @@ const TaskPull = props => {
             taskId: newTask._id
         }
         axios.put(`/api/projects/${id}`, updateParameterProject, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( project => props.setProject( () => project))
+            .then( project => {
+                props.setProject( () => project)
+                getProject(props.project._id, props.setProject)
+            })
             .catch(error => console.log(error))
         
     }

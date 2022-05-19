@@ -8,8 +8,6 @@ import TaskCreate from '../TaskCreate/TaskCreate';
 
 const StatusColumn = props => {
 
-    //const { taskCreate, setTaskCreate } = useContext(ProjectContext)
-
 const [taskCreate, setTaskCreate] = useState(false)
 
     return (

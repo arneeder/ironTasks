@@ -1,34 +1,39 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../../context/auth'
+import './index.css'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/auth';
+
 
 const Navbar = () => {
 	const { isLoggedIn, logoutUser } = useContext(AuthContext)
 
 	return (
-		<nav>
-			<Link to='/'>
-				<button>Home</button>
+		<nav className='navbar'>
+			<Link className='navbar-home' to='/'>
+				{/* <img src={logo} alt="todo-list" /> */}
+                <button>HOME</button>
 			</Link>
-			{isLoggedIn ?
+			<div className='nav-button-list'>
+            {isLoggedIn ?
 				(
 					<>
 						<Link to='/main'>
-							<button>My Projects</button>
+							<p className='navbar-link'>My Projects</p>
 						</Link>
-						<button onClick={logoutUser}>Log out</button>
+						<p className='navbar-link' onClick={logoutUser}>Log out</p>
 					</>
 				) : (
 					<>
 						<Link to='/signup'>
-							<button>Signup</button>
+							<p className='navbar-link'>Signup</p>
 						</Link>
 						<Link to='/login'>
-							<button>Login</button>
+							<p className='navbar-link'>Login</p>
 						</Link>
 					</>
 				)
 			}
+            </div>
 		</nav>
 	)
 }

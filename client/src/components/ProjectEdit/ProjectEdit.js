@@ -1,12 +1,10 @@
 import './index.css';
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { ProjectContext } from '../../context/getProject';
+import React, { useEffect, useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 
 const ProjectEdit = props => {
     
-    const {  getProject } = useContext(ProjectContext)
     const storedToken = localStorage.getItem('authToken')
 
     const [name, setName] = useState(props.project?.name)
@@ -41,7 +39,8 @@ const ProjectEdit = props => {
             .then( newProject => {
                 console.log(newProject);
                 props.setProject( () => newProject )
-                props.getMyProjects()
+                props.getProject(props.project._id, props.setProject)
+                props.setTrigger( () => !props.trigger)
             })
             .catch( err => console.log(err) )
     
@@ -71,8 +70,7 @@ const ProjectEdit = props => {
     }
 
     useEffect(() => {
-        //getProject(props.project?._id, props.setProject)
-        //props.getMyProjects()
+        props.getProject(props.project._id, props.setProject)
         console.log(props.project);
         getAllUsers()
         getProjectUsers(props.project?._id)

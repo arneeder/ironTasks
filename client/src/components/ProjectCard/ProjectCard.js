@@ -60,6 +60,9 @@ const ProjectCard = props => {
                     project={project}
                     setProject={setProject}
                     getMyProjects={props.getMyProjects} 
+                    getProject={getProject}
+                    trigger={projectEdit}
+                    setTrigger={setProjectEdit}
                 />
             </Popup>
         </div>

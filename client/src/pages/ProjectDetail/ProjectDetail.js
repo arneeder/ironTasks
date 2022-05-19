@@ -9,11 +9,12 @@ import axios from 'axios';
 import TaskDetail from '../../components/TaskDetail/TaskDetail';
 import ColumnCreate from '../../components/ColumnCreate/ColumnCreate';
 import TaskPull from '../../components/TaskPull/TaskPull';
+import ProjectEdit from '../../components/ProjectEdit/ProjectEdit';
 
 const ProjectDetail = () => {
     
     const { id } = useParams()
-    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull } = useContext(ProjectContext)
+    const { getProject, taskCreate, setTaskCreate, taskDetail, setTaskDetail, columnCreate, setColumnCreate, taskPull, setTaskPull, projectEdit, setProjectEdit } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
 
@@ -127,6 +128,20 @@ const ProjectDetail = () => {
                         setTrigger={setColumnCreate}
                     >
                         <ColumnCreate projectId={id} />
+                    </Popup>
+
+                    <Popup 
+                        trigger={columnCreate}
+                        setTrigger={setProjectEdit}
+                    >
+                        <ProjectEdit
+                            project={project}
+                            setProject={setProject}
+                            //getMyProjects={props.getMyProjects} 
+                            getProject={getProject}
+                            //trigger={projectEdit}
+                            //setTrigger={setProjectEdit}
+                        />
                     </Popup>
 
                     <TasksOneProject />

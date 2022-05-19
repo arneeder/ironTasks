@@ -10,7 +10,7 @@ const ProjectList = props => {
                 props.myProjects.map( project => (
                     <ProjectCard
                         key={project._id}
-                        projectId={project._id}
+                        project={project}
                         getMyProjects={props.getMyProjects}
                 />
                 ))

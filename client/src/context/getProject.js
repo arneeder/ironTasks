@@ -18,7 +18,7 @@ const ProjectWrapper = props => {
     const [taskDetail, setTaskDetail] = useState(false)
     const [columnCreate, setColumnCreate] = useState(false)
     const [currentTask, setCurrentTask] = useState('')
-    const [projectEdit, setProjectEdit] = useState(false)
+    // const [projectEdit, setProjectEdit] = useState(false)
 
     const getProject = ( projectId, setProject='' ) => {
         axios.get(`/api/projects/${projectId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
@@ -79,8 +79,8 @@ const ProjectWrapper = props => {
                 setColumnCreate,
                 currentTask,
                 getCurrentTask,
-                projectEdit,
-                setProjectEdit
+                // projectEdit,
+                // setProjectEdit
                 }}>
 			{props.children}
 		</ProjectContext.Provider>

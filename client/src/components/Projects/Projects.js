@@ -32,19 +32,6 @@ const Projects = () => {
                 myProjects={myProjects}  
                 getMyProjects={getMyProjects}
             />
-            <Popup 
-                trigger={projectEdit}
-                setTrigger={setProjectEdit}
-            >
-            <ProjectEdit
-                project={projectPopup}
-                setProject={setProjectPopup}
-                getMyProjects={getMyProjects} 
-                getProject={getProject}
-                //trigger={projectEdit}
-                //setTrigger={setProjectEdit}
-            />
-            </Popup>
         </>
     )
 }

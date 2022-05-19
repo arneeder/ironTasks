@@ -5,13 +5,17 @@ import { Link } from 'react-router-dom';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 import Button from '../Button/Button';
 import { ProjectContext } from '../../context/getProject';
+import Popup from '../Popup/Popup';
+import ProjectEdit from '../ProjectEdit/ProjectEdit';
 
 
 const ProjectCard = props => {
 
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, projectEdit, setProjectEdit } = useContext(ProjectContext)
+    const { getProject } = useContext(ProjectContext)
     //const [project, setProject] = useState({})
+
+    const [projectEdit, setProjectEdit] = useState(false)
 
     
     const handleDelete = e => {
@@ -50,6 +54,21 @@ const ProjectCard = props => {
                         setTrigger={setProjectEdit}
                     />
                 </form>
+
+                <Popup 
+                trigger={projectEdit}
+                setTrigger={setProjectEdit}
+            >
+            <ProjectEdit
+                project={props.project}
+                //setProject={setProjectPopup}
+                getMyProjects={props.getMyProjects} 
+                //getProject={getProject}
+                trigger={projectEdit}
+                setTrigger={setProjectEdit}
+            />
+            </Popup>
+
             </div>
         </div>
   )

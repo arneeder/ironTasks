@@ -7,12 +7,12 @@ import { ProjectContext } from '../../context/getProject';
 
 const ProjectEdit = props => {
     
-    const { projectPopup, setProjectPopup } = useContext(ProjectContext)
+    //const { props.project, setProjectPopup } = useContext(ProjectContext)
     
     const storedToken = localStorage.getItem('authToken')
     
-    const [name, setName] = useState(projectPopup?.name)
-    const [description, setDescription] = useState(projectPopup?.description)
+    const [name, setName] = useState(props.project?.name)
+    const [description, setDescription] = useState(props.project?.description)
     const [memberOptions, setMemberOptions] = useState([])
     const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
 
@@ -34,16 +34,17 @@ const ProjectEdit = props => {
             name: name,
             description: description,
             members: memberList,
-            tasksByStatus: projectPopup.tasksByStatus,
-            parentProject: projectPopup.parentProject,
-            childProjects: projectPopup.childProjects
+            tasksByStatus: props.project.tasksByStatus,
+            parentProject: props.project.parentProject,
+            childProjects: props.project.childProjects
         }
         
-        axios.put(`/api/projects/state/${projectPopup._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
+        axios.put(`/api/projects/state/${props.project._id}`, adjustedProject, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( newProject => {
-                console.log(newProject);
-                setProjectPopup( () => newProject )
-                setProjectPopup(projectPopup._id, setProjectPopup)
+                //console.log(newProject);
+                //setProjectPopup( () => newProject )
+                //setProjectPopup(props.project._id, setProjectPopup)
+                props.getMyProjects()
                 props.setTrigger( () => !props.trigger)
             })
             .catch( err => console.log(err) )
@@ -62,7 +63,7 @@ const ProjectEdit = props => {
             .catch( err => console.log(err) )
     }
     const getProjectUsers = () => {
-        axios.get(`api/users/project/${projectPopup?._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+        axios.get(`api/users/project/${props.project?._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         .then( users => {
             const userNames = []
             users.data.forEach(user => {
@@ -74,10 +75,10 @@ const ProjectEdit = props => {
     }
 
     useEffect(() => {
-        //props.getProject(projectPopup._id, setProjectPopup)
-        //console.log(projectPopup);
+        //props.getProject(props.project._id, setProjectPopup)
+        //console.log(props.project);
         getAllUsers()
-        getProjectUsers(projectPopup?._id)
+        getProjectUsers(props.project?._id)
     }, [])
     
     return (

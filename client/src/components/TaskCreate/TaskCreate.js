@@ -24,6 +24,7 @@ const CreateTask = props => {
         const requestBody = { name, description, accountable, responsible, projects }
         postNewTask(requestBody)
         getProject(id)
+        props.setTaskCreate( () => false )
     }
     const handleName = e => setName(() => e.target.value)
     const handleDescription = e => setDescription(() => e.target.value)
@@ -109,12 +110,15 @@ const CreateTask = props => {
                 </div> */}
 
                 <button type="submit">Create Task</button>
+            </form>
+            <form onSubmit={ () => props.setTaskCreate( false ) }>
                 <Button 
-                    className={'btn-small'}
-                    content={'Pull existent task'}
-                    trigger={taskPull}
-                    setTrigger={setTaskPull}
-            />
+                        className={'btn-small'}
+                        content={'Pull existent task'}
+                        trigger={taskPull}
+                        setTrigger={setTaskPull}
+                        type='submit'
+                />
             </form>
         </>
   )

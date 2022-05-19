@@ -59,7 +59,10 @@ const [taskCreate, setTaskCreate] = useState(false)
             trigger={taskCreate}
             setTrigger={setTaskCreate}
         >
-            <TaskCreate status={props.status._id} />
+            <TaskCreate 
+                status={props.status._id} 
+                setTaskCreate={setTaskCreate}
+            />
         </Popup>
     </>
     )

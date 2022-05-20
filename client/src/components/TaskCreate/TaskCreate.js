@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProjectContext } from '../../context/getProject';
 import Button from '../Button/Button'
+import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 
 const CreateTask = props => {
     
@@ -65,7 +66,7 @@ const CreateTask = props => {
     },[])
     
     return (
-        <>
+        <div className='pull-container'>
             <form onSubmit={handleSubmit}>
                 <div className="container-formfield">
                     <label htmlFor="name">Name: </label>
@@ -101,18 +102,21 @@ const CreateTask = props => {
                     </select>
                 </div>
 
-                <button type="submit">Create Task</button>
+                <ButtonSubmit 
+                    className={'btn-small'}
+                    content={'Create Task'}
+                />
             </form>
-            <form onSubmit={ pullHandle  }>
+            <form className='pull-task' onSubmit={ pullHandle  }>
                 <Button 
                         className={'btn-small'}
-                        content={'Pull existent task'}
+                        content={'Pull Task'}
                         trigger={taskPull}
                         setTrigger={setTaskPull}
                         type='submit'
                 />
             </form>
-        </>
+        </div>
   )
 }
 

@@ -120,7 +120,6 @@ const ProjectDetail = () => {
 
     return (
         <div className='project-board-container'>
-        <h1 className='board-title'>{project.name}</h1>
             <DragDropContext onDragEnd={onDragEnd}>
 
                     <Popup 

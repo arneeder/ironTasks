@@ -1,0 +1,19 @@
+.task-list-container {
+    display: flex;
+    max-height: 50vh;
+    flex-direction: column;
+    overflow-y: auto;
+    margin: 10px;
+    padding: 10px;
+}
+
+.one-task-overview {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    max-width: 30vh;
+    margin: 20px;
+    display: flex;
+}
+.one-task-overview p {
+    margin: 20px;
+}

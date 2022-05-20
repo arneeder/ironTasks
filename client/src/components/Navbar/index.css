@@ -2,7 +2,7 @@
     height: 60px;
     background-color: #5e6042;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 }
 .nav-button-list {

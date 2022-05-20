@@ -9,10 +9,7 @@ const Navbar = () => {
 
 	return (
 		<nav className='navbar'>
-			<Link className='navbar-home' to='/'>
-				{/* <img src={logo} alt="todo-list" /> */}
-                <button>HOME</button>
-			</Link>
+
 			<div className='nav-button-list'>
             {isLoggedIn ?
 				(

@@ -13,7 +13,7 @@ const StatusColumn = props => {
     const [taskPull, setTaskPull] = useState(false)
 
     return (
-        <>
+        <div className='column-outer-container'>
         <Draggable draggableId={props.status._id} index={props.index}>
         {(provided, snapshot) => (
             <div className='column-container'
@@ -76,7 +76,7 @@ const StatusColumn = props => {
                 status={props.status}
             />
         </Popup>
-    </>
+    </div>
     )
 }
 

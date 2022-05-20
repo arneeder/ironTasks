@@ -2,3 +2,10 @@
     max-width: 100vw;
     overflow-x: scroll;
 }
+.board-title {
+    text-align: left;
+    color: white;
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+}

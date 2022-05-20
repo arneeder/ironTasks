@@ -1,7 +1,7 @@
 import './index.css'
 import React, { useState } from 'react';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
+import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 
 const ProjectCreate = props => {
 
@@ -23,18 +23,18 @@ const ProjectCreate = props => {
     const handleDescription = e => setDescription( () => e.target.value)
   
     return (
-        <>
-            <h1>Create Project</h1>
-            <form onSubmit={handleSubmit}>
+        <div className='project-create-container'>
+            <h2>Create new Project...</h2>
+            <form className='project-create-form' onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
                 <input type="text" value={name} onChange={handleName} />
 
                 <label htmlFor="description">Description: </label>
                 <input type="text" value={description} onChange={handleDescription} />
                 
-                <Button variant="primary" type="submit">Create New Project</Button>{' '}
+                <ButtonSubmit className={'primary'} type="submit" content={'Create Content'}/>
             </form>
-        </>
+        </div>
     )
 }
 

@@ -1,3 +1,7 @@
+.column-outer-container {
+    margin-top: 0;
+    padding: 0;
+}
 .column-container {
     max-height: 80vh;
 }

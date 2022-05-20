@@ -1,3 +1,4 @@
+import './index.css'
 import React, { useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import { useParams } from 'react-router-dom';
@@ -91,12 +92,15 @@ const ProjectDetail = () => {
             const statusId = destination.droppableId
             const task = draggedElement[0]
 
-            axios.get(`/api/status/cluster/${statusId}`)
+
+
+            axios.get(`/api/status/cluster/${statusId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
                 .then(cluster => {
                     console.log(cluster)
                     const statusCluster = cluster.data
                     task.statusCluster = statusCluster
                     
+                    console.log(task);
                     axios.put(`/api/tasks/${task._id}`, task, { headers: { Authorization: `Bearer ${storedToken}` } })
                         .then(newTask => console.log(newTask))
                         .catch(error => console.log(error))
@@ -104,7 +108,6 @@ const ProjectDetail = () => {
                 })
                 .catch(error => console.log(error))
             
-            console.log(task);
 
             return;
 
@@ -117,6 +120,7 @@ const ProjectDetail = () => {
 
     return (
         <div className='project-board-container'>
+        <h1 className='board-title'>{project.name}</h1>
             <DragDropContext onDragEnd={onDragEnd}>
 
                     <Popup 

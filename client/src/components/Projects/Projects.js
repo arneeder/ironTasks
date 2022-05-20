@@ -1,16 +1,13 @@
 import './index.css'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProjectCreate from '../ProjectCreate/ProjectCreate'
 import ProjectList from '../ProjectList/ProjectList'
 import axios from 'axios'
-import Popup from '../Popup/Popup'
-import ProjectEdit from '../ProjectEdit/ProjectEdit'
-import { ProjectContext } from '../../context/getProject'
+import MyTasks from '../MyTasks/MyTasks'
 
 const Projects = () => {
 
     const storedToken = localStorage.getItem('authToken')
-    const { projectEdit, setProjectEdit, getProject, projectPopup, setProjectPopup } = useContext(ProjectContext)
 
     const [myProjects, setMyProjects] = useState([])
 
@@ -26,12 +23,16 @@ const Projects = () => {
   
     return (
         <>
-            <h2>Projects</h2>
+            <h1>Overview</h1>
             <ProjectCreate getMyProjects={getMyProjects}/>
-            <ProjectList
-                myProjects={myProjects}  
-                getMyProjects={getMyProjects}
-            />
+            <div className='overview-details'>
+                <ProjectList
+                    className='project-list'
+                    myProjects={myProjects}  
+                    getMyProjects={getMyProjects}
+                />
+                <MyTasks className='task-list'/>
+            </div>
         </>
     )
 }

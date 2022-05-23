@@ -32,7 +32,6 @@ const TaskDetail = props => {
                 id: currentTask.accountable?._id,
                 name: currentTask.accountable?.name
             }
-            console.log(currentTask);
             return accountable
         } )
         setResponsibleState( () => { 
@@ -44,7 +43,6 @@ const TaskDetail = props => {
         } )
     }, [])
 
-    console.log({projectMembers});
     return (
         <>
             <div className='task-detail-container'>

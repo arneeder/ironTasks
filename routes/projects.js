@@ -40,7 +40,6 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     const projectId = req.params.id
-    console.log('project id route is triggered');
     Project.findById(projectId)
         .populate('admins')
         .populate('members')
@@ -60,7 +59,6 @@ router.get('/:id', (req, res, next) => {
         })
         .then( project => {
             res.status(200).json(project)
-            //console.log(project);
         })
         .catch(err => next(err))
 });
@@ -92,7 +90,6 @@ router.put('/:id', (req, res, next) => {
     const { oldProject, statusId, taskId } = req.body
     const taskObject = mongoose.Types.ObjectId(taskId)
 
-    console.log({oldProject});
     oldProject.tasksByStatus.find( statusCol => String(statusCol.status._id) === String(statusId)).tasks.push(taskObject)
 
     Project.findByIdAndUpdate(req.params.id,

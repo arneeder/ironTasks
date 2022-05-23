@@ -8,7 +8,6 @@ const ButtonRound = props => {
 
     const handleButton = () => {
         props.setTrigger(!props.trigger)
-        console.log('BTN PARAMETER: ', props.taskId);
         if(props.taskId) getCurrentTask( props.taskId )
     }
 

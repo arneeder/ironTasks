@@ -51,7 +51,6 @@ const ProjectWrapper = props => {
         axios.get(`/api/tasks/${currentTaskId}`,  { headers: { Authorization: `Bearer ${storedToken}` } } )
                 .then( taskFromDb => {
                     setCurrentTask(() => taskFromDb.data)
-                    console.log(taskFromDb)
                 } )
                 .catch( err => console.log(err) )
     }

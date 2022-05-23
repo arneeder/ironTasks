@@ -1,5 +1,5 @@
 import './index.css'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const MyTasks = () => {
@@ -7,9 +7,17 @@ const MyTasks = () => {
     const storedToken = localStorage.getItem('authToken')
     const [myTasks, setMyTasks] = useState([])
     
-    axios.get(`/api/tasks/`, { headers: { Authorization: `Bearer ${storedToken}` } } )
-        .then( myTasks => setMyTasks( () => myTasks.data ) )
-        .catch( err => console.log(err) )
+    const getAllTasks = () => {
+        axios.get(`/api/tasks/`, { headers: { Authorization: `Bearer ${storedToken}` } } )
+            .then( myTasks => setMyTasks( () => myTasks.data ) )
+            .catch( err => console.log(err) )
+    }
+    
+    useEffect(() => {
+        getAllTasks()
+    
+    }, [])
+    
     
     return (
         <div>

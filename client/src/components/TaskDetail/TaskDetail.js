@@ -3,22 +3,38 @@ import Multiselect from 'multiselect-react-dropdown';
 import React, { useContext, useState, useEffect } from 'react';
 import { ProjectContext } from '../../context/getProject';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
+import axios from 'axios';
 
 const TaskDetail = props => {
 
     const { currentTask, projectMembers, getProject } = useContext(ProjectContext)
+    const storedToken = localStorage.getItem('authToken')
     
-    const [project, setProject] = useState({})
     const [personsInProject, setPersonsInProject] = useState([])
-    const [accountableState, setAccountableState] = useState({})
-    const [responsibleState, setResponsibleState] = useState({})
+    const [task, setTask] = useState(currentTask)
 
-    const onAccountableSelect = (selectedList, selectedItem) => setAccountableState( () => selectedItem )
-    const onResponsibleSelect = (selectedList, selectedItem) => setResponsibleState( () => selectedItem )
-    const handleSubmit = () => { console.log('todo') }
+    const onAccountableSelect = (selectedList, selectedItem) => {
+        const taskCopy = JSON.parse(JSON.stringify(task))
+        taskCopy.accountable = selectedItem.id
+        setTask( () => taskCopy )
+    }
+    const onResponsibleSelect = (selectedList, selectedItem) => {
+        const taskCopy = JSON.parse(JSON.stringify(task))
+        taskCopy.responsible = selectedItem.id
+        setTask( () => taskCopy )
+    }
+    const handleSubmit = e => { 
+        e.preventDefault()
+        axios.put(`/api/tasks/${task?._id}`, task, { headers: { Authorization: `Bearer ${storedToken}` } } )
+            .then( task => {
+                getProject( props.projectId, props.setProject )
+                props.setTrigger( () => false ) 
+            })
+            .catch ( err => console.log(err) )
+    }
 
     useEffect( () => {
-        getProject( props.projectId, setProject)
+        if (!task) setTask( () => currentTask )
         const members = []
         projectMembers.forEach( projectMember => {
             members.push({
@@ -27,20 +43,6 @@ const TaskDetail = props => {
             })
         })
         setPersonsInProject( () => members)
-        setAccountableState( () => { 
-            const accountable = { 
-                id: currentTask.accountable?._id,
-                name: currentTask.accountable?.name
-            }
-            return accountable
-        } )
-        setResponsibleState( () => { 
-            const responsible = { 
-                id: currentTask.responsible?._id,
-                name: currentTask.responsible?.name
-            }
-            return responsible
-        } )
     }, [])
 
     return (
@@ -59,22 +61,22 @@ const TaskDetail = props => {
                             <h4>Accountable: </h4>
                             <Multiselect
                                 options={personsInProject}
-                                selectedValues={ accountableState }
+                                selectedValues={ task.accountable }
                                 onSelect={onAccountableSelect}
                                 displayValue="name"
                                 singleSelect={true}
-                                placeholder={ accountableState.name }
+                                placeholder={ task.accountable?.name }
                             />
                         </article>
                         <article>
                             <h4>Responsible: </h4>
                             <Multiselect
                                 options={personsInProject}
-                                selectedValues={ responsibleState }
+                                selectedValues={ task.responsible }
                                 onSelect={onResponsibleSelect}
                                 displayValue="name"
                                 singleSelect={true}
-                                placeholder={ responsibleState.name }
+                                placeholder={ task.responsible?.name }
                             />
                         </article>
                         <ButtonSubmit 

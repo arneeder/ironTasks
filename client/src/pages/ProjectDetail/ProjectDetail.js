@@ -121,7 +121,12 @@ const ProjectDetail = () => {
                         trigger={taskDetail}
                         setTrigger={setTaskDetail}
                     >
-                        <TaskDetail projectId={id} />
+                    <TaskDetail
+                        projectId={id}
+                        project={project} 
+                        setTrigger={setTaskDetail}
+                        setProject={setProject}
+                    />
                     </Popup>
 
                     <Popup 
@@ -131,7 +136,10 @@ const ProjectDetail = () => {
                         <ColumnCreate projectId={id} />
                     </Popup>
 
-                    <TasksOneProject setProject={setProject} project={project} />
+                    <TasksOneProject
+                        setProject={setProject}
+                        
+                    />
              </DragDropContext>
         </div>
     )

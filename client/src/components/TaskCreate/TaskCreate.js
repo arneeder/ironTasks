@@ -10,7 +10,7 @@ const CreateTask = props => {
     
     const { id } = useParams()
     const storedToken = localStorage.getItem('authToken')
-    const { getProject, availableStatusses, projectMembers, taskPull, setTaskPull } = useContext(ProjectContext)
+    const { getProject, projectMembers, taskPull, setTaskPull } = useContext(ProjectContext)
 
     const [project, setProject] = useState({})
     const [name, setName] = useState('')

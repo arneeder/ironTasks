@@ -1,13 +1,10 @@
 const router = require("express").Router();
 const Task = require("../models/Task");
 const Project = require("../models/Project");
-const Status = require("../models/Status")
 
-// show all tasks of boards I am a member of
 router.get('/', (req, res, next) => {
     
     const userId = req.payload._id
-    console.log(userId);
     
     Project.find({members: userId})
         .then( projects => {
@@ -24,10 +21,6 @@ router.get('/', (req, res, next) => {
         })
         .catch(err => next(err))
 });
-
-// router.post('/', (req, res, next) => {
-    
-// });
 
 router.get('/project/:id', (req, res, next) => {
     
@@ -58,7 +51,6 @@ router.get('/:id', (req, res, next) => {
         .populate('accountable')
         .populate('responsible')
         .then( task => {
-            console.log(task)
             res.status(201).json(task)
             
 }       )
@@ -66,12 +58,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    const taskId = req.params._id
+    const taskId = req.params.id
     const task = req.body
-    console.log({taskId})
+
     Task.findByIdAndUpdate(taskId, task)   
         .then( updatedTask => {
-            console.log(task)
+            console.log(updatedTask)
             res.status(201).json(task)
         })
         .catch(err => next(err))

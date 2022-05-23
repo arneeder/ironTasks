@@ -50,9 +50,6 @@ const TaskPull = props => {
     const onMemberSelect = (selectedList, selectedItem) => {
         setNewTask( () => selectedItem )
     }
-    // const onStatusSelect =  (selectedList, selectedItem) => {
-    //     setStatus( () => selectedItem._id )
-    // }
     const handleSubmit = e => {
         e.preventDefault()
         const newProjectsForTask = newTask.projects
@@ -86,8 +83,6 @@ const TaskPull = props => {
         getTaskList()
     }, [])
 
-    
-    console.log(projectTasks);
     return (
         <div className='task-pull-container'>
             <header className='header-task-pull'>

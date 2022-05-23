@@ -6,7 +6,6 @@ const Task = require("../models/Task")
 router.get('/', (req, res, next) => {
     User.find()
         .then( users => {
-            console.log('All Users: ', users);
             res.status(200).json(users)
         } )
         .catch( err => next(err) )

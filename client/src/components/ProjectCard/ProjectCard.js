@@ -13,7 +13,6 @@ const ProjectCard = props => {
 
     const storedToken = localStorage.getItem('authToken')
     const { getProject } = useContext(ProjectContext)
-    //const [project, setProject] = useState({})
 
     const [projectEdit, setProjectEdit] = useState(false)
 
@@ -28,11 +27,6 @@ const ProjectCard = props => {
             })
             .catch(err => console.log(err))
     }
-
-    // useEffect( () => {
-    //     getProject(props.projectId, setProject)
-
-    // }, [])
   
     return (
         <div className='task-card-container'>
@@ -61,9 +55,7 @@ const ProjectCard = props => {
             >
             <ProjectEdit
                 project={props.project}
-                //setProject={setProjectPopup}
                 getMyProjects={props.getMyProjects} 
-                //getProject={getProject}
                 trigger={projectEdit}
                 setTrigger={setProjectEdit}
             />

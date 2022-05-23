@@ -34,16 +34,13 @@ const ProjectDetail = () => {
         if(type === 'column') {
             const newColumnOrder = project.tasksByStatus
             const draggedElement = newColumnOrder.splice(source.index, 1)
-            console.log(draggedElement);
             newColumnOrder.splice(destination.index, 0, draggedElement[0])
 
             const newProject = JSON.parse(JSON.stringify(project))
             newProject.tasksByStatus = newColumnOrder
-            console.log(newProject);
 
             axios.put(`/api/projects/state/${id}`, newProject, { headers: { Authorization: `Bearer ${storedToken}` } })
             .then( project => {
-                console.log('axios ran succesfully');
                 getProject(id, setProject)
                 setProject( () => project)
             } )
@@ -96,11 +93,9 @@ const ProjectDetail = () => {
 
             axios.get(`/api/status/cluster/${statusId}`, { headers: { Authorization: `Bearer ${storedToken}` } })
                 .then(cluster => {
-                    console.log(cluster)
                     const statusCluster = cluster.data
                     task.statusCluster = statusCluster
                     
-                    console.log(task);
                     axios.put(`/api/tasks/${task._id}`, task, { headers: { Authorization: `Bearer ${storedToken}` } })
                         .then(newTask => console.log(newTask))
                         .catch(error => console.log(error))
@@ -126,7 +121,12 @@ const ProjectDetail = () => {
                         trigger={taskDetail}
                         setTrigger={setTaskDetail}
                     >
-                        <TaskDetail projectId={id} />
+                    <TaskDetail
+                        projectId={id}
+                        project={project} 
+                        setTrigger={setTaskDetail}
+                        setProject={setProject}
+                    />
                     </Popup>
 
                     <Popup 
@@ -136,7 +136,10 @@ const ProjectDetail = () => {
                         <ColumnCreate projectId={id} />
                     </Popup>
 
-                    <TasksOneProject setProject={setProject} project={project} />
+                    <TasksOneProject
+                        setProject={setProject}
+                        
+                    />
              </DragDropContext>
         </div>
     )

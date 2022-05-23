@@ -20,7 +20,6 @@ const ColumnCreate = props => {
         setStatusType( () => selectedItem.name )
     }
     const onSubmitHandler = e => {
-        console.log('onSubmitExecuted')
         e.preventDefault()
         // two times axios
         axios.post('/api/status', { name: statusName, cluster: statusType }, { headers: { Authorization: `Bearer ${storedToken}` }} )

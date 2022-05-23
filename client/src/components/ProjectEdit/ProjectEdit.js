@@ -72,8 +72,6 @@ const ProjectEdit = props => {
     }
 
     useEffect(() => {
-        //props.getProject(props.project._id, setProjectPopup)
-        //console.log(props.project);
         getAllUsers()
         getProjectUsers(props.project?._id)
     }, [])

@@ -19,9 +19,9 @@ const ProjectEdit = props => {
 
     const onMemberSelect = (selectedList, selectedItem) => {
         setSelectedMemberOptions( () => selectedList )
-        console.log(selectedMemberOptions);
     }
-    const onMemberRemove = (selectedList, selectedItem) => {
+    const onMemberRemove = (selectedList, removedItem) => {
+        setUncheckedMemberOptions( uncheckedMemberOptions => [...uncheckedMemberOptions, removedItem] )
         setSelectedMemberOptions( () => selectedList )
     }
     const handleSubmit = e => {
@@ -48,7 +48,20 @@ const ProjectEdit = props => {
                     axios.put(`/api/users/${member._id}`, member, { headers: { Authorization: `Bearer ${storedToken}` } })
                         .then( updatedUser => console.log(updatedUser.data._id) )
                         .catch( err => console.log(err))
-                } )
+                })
+
+                console.log(uncheckedMemberOptions);
+                uncheckedMemberOptions.forEach( member => {
+                    
+                    const index = member.projects.indexOf( newProject.data._id )
+                    if ( index >= 0 ) member.projects.splice( index, 1 )
+                    console.log(member);
+               
+                    axios.put(`/api/users/${member._id}`, member, { headers: { Authorization: `Bearer ${storedToken}` } })
+                        .then( updatedUser => console.log(updatedUser.data._id) )
+                        .catch( err => console.log(err))
+                })
+
             })
             .catch( err => console.log(err) )
     }
@@ -67,7 +80,6 @@ const ProjectEdit = props => {
     const getProjectUsers = () => {
         axios.get(`api/users/project/${props.project?._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         .then( users => {
-            console.log(users);
             const userNames = []
             users.data.forEach(user => {
                 userNames.push({name: user.name, id: user._id})

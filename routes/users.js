@@ -11,6 +11,31 @@ router.get('/', (req, res, next) => {
         .catch( err => next(err) )
 });
 
+router.get('/:id', (req, res, next) => {
+    
+    const userId = req.params.id
+    
+    User.findById(userId)
+        .then( user => {
+            res.status(200).json(user)
+        } )
+        .catch( err => next(err) )
+});
+
+router.put('/:id', (req, res, next) => {
+
+    const userId = req.params.id
+    const updateParameter = req.body
+    console.log(req.body);
+
+    User.findByIdAndUpdate(userId, updateParameter)
+        .then( user => {
+            res.status(201).json(user)
+        })
+        .catch( err => next(err) )
+    
+});
+
 router.get('/project/:id', (req, res, next) => {
     
     const projectId = req.params.id

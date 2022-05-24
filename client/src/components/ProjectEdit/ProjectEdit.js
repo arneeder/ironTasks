@@ -15,9 +15,11 @@ const ProjectEdit = props => {
     const [description, setDescription] = useState(props.project?.description)
     const [memberOptions, setMemberOptions] = useState([])
     const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
+    const [uncheckedMemberOptions, setUncheckedMemberOptions] = useState([])
 
     const onMemberSelect = (selectedList, selectedItem) => {
         setSelectedMemberOptions( () => selectedList )
+        console.log(selectedMemberOptions);
     }
     const onMemberRemove = (selectedList, selectedItem) => {
         setSelectedMemberOptions( () => selectedList )
@@ -43,9 +45,20 @@ const ProjectEdit = props => {
             .then( newProject => {
                 props.getMyProjects()
                 props.setTrigger( () => !props.trigger)
+                selectedMemberOptions.forEach( member => {
+
+                    const adjustedMember = JSON.parse(JSON.stringify(member))
+                    if( !adjustedMember.projects.includes(newProject.data._id) ) adjustedMember.projects.push( newProject.data._id )
+
+                    axios.put(`/api/users/${member.id}`, adjustedMember, { headers: { Authorization: `Bearer ${storedToken}` } })
+                        .then(  )
+                        .catch( err => console.log(err))
+                } )
             })
             .catch( err => console.log(err) )
-    
+        // loop over unselected members
+            // remove project
+            // set status unselected to empty array    
     }
 
     const getAllUsers = () => {
@@ -62,10 +75,11 @@ const ProjectEdit = props => {
     const getProjectUsers = () => {
         axios.get(`api/users/project/${props.project?._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         .then( users => {
+            console.log(users);
             const userNames = []
             users.data.forEach(user => {
                 userNames.push({name: user.name, id: user._id})
-                setSelectedMemberOptions( () => userNames )
+                setSelectedMemberOptions( () => users.data )
             })
         } )
             .catch( err => console.log(err) )

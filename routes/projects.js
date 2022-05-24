@@ -74,15 +74,14 @@ router.delete('/:id', (req, res, next) => {
 
 router.put('/state/:id', (req, res, next) => {
     
-    const projectCopy = req.body
+    const updatedProject = req.body
     
     Project.findByIdAndUpdate(req.params.id,
-        projectCopy
+        updatedProject
         , { new: true })
         .then( project => {
-            res.status(200).json(project) 
-        }
-        )
+            res.status(201).json(project) 
+        })
         .catch(err => next(err))
 });
 

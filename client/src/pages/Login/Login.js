@@ -18,7 +18,6 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault()
     const requestBody = { email, password }
-    console.log(requestBody);
 
     axios.post('/api/auth/login', requestBody)
       .then( response => {

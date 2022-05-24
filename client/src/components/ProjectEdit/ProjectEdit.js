@@ -15,25 +15,23 @@ const ProjectEdit = props => {
     const [description, setDescription] = useState(props.project?.description)
     const [memberOptions, setMemberOptions] = useState([])
     const [selectedMemberOptions, setSelectedMemberOptions] = useState([])
+    const [uncheckedMemberOptions, setUncheckedMemberOptions] = useState([])
 
     const onMemberSelect = (selectedList, selectedItem) => {
         setSelectedMemberOptions( () => selectedList )
     }
-    const onMemberRemove = (selectedList, selectedItem) => {
+    const onMemberRemove = (selectedList, removedItem) => {
+        setUncheckedMemberOptions( uncheckedMemberOptions => [...uncheckedMemberOptions, removedItem] )
         setSelectedMemberOptions( () => selectedList )
     }
     const handleSubmit = e => {
         e.preventDefault()
-        
-        const memberList = []
-        selectedMemberOptions.forEach( member => {
-            memberList.push(member.id)
-        })
 
         const adjustedProject = {
             name: name,
             description: description,
-            members: memberList,
+            admins: props.project.admins,
+            members: selectedMemberOptions,
             tasksByStatus: props.project.tasksByStatus,
             parentProject: props.project.parentProject,
             childProjects: props.project.childProjects
@@ -43,9 +41,29 @@ const ProjectEdit = props => {
             .then( newProject => {
                 props.getMyProjects()
                 props.setTrigger( () => !props.trigger)
+                selectedMemberOptions.forEach( member => {
+
+                    if( !member.projects.includes(newProject.data._id) ) member.projects.push( newProject.data._id )
+
+                    axios.put(`/api/users/${member._id}`, member, { headers: { Authorization: `Bearer ${storedToken}` } })
+                        .then( updatedUser => console.log(updatedUser.data._id) )
+                        .catch( err => console.log(err))
+                })
+
+                console.log(uncheckedMemberOptions);
+                uncheckedMemberOptions.forEach( member => {
+                    
+                    const index = member.projects.indexOf( newProject.data._id )
+                    if ( index >= 0 ) member.projects.splice( index, 1 )
+                    console.log(member);
+               
+                    axios.put(`/api/users/${member._id}`, member, { headers: { Authorization: `Bearer ${storedToken}` } })
+                        .then( updatedUser => console.log(updatedUser.data._id) )
+                        .catch( err => console.log(err))
+                })
+
             })
             .catch( err => console.log(err) )
-    
     }
 
     const getAllUsers = () => {
@@ -54,7 +72,7 @@ const ProjectEdit = props => {
                 const userNames = []
                 users.data.forEach(user => {
                     userNames.push({name: user.name, id: user._id})
-                    setMemberOptions( () => userNames )
+                    setMemberOptions( () => users.data )
                 })
             } )
             .catch( err => console.log(err) )
@@ -65,7 +83,7 @@ const ProjectEdit = props => {
             const userNames = []
             users.data.forEach(user => {
                 userNames.push({name: user.name, id: user._id})
-                setSelectedMemberOptions( () => userNames )
+                setSelectedMemberOptions( () => users.data )
             })
         } )
             .catch( err => console.log(err) )

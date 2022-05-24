@@ -1,10 +1,13 @@
 import './index.css'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
+import { AuthContext } from '../../context/auth';
 
 const ProjectCreate = props => {
 
+    const { user } = useContext(AuthContext)
+    
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const storedToken = localStorage.getItem('authToken')
@@ -12,10 +15,20 @@ const ProjectCreate = props => {
     const handleSubmit = e => {
         e.preventDefault()
         axios.post('/api/projects/', {name, description}, { headers: { Authorization: `Bearer ${storedToken}` } })
-            .then( response => {
+            .then( project => {
                 setName(() => '')
                 setDescription(() => '')
-                props.getMyProjects()
+                axios.get(`/api/users/${user._id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+                    .then( userFromDb => {
+                        userFromDb.data.projects.push( project.data._id )
+                        console.log(userFromDb.data);
+                            axios.put(`/api/users/${user._id}`, userFromDb.data, { headers: { Authorization: `Bearer ${storedToken}` } } )
+                                .then( updatedUser => {
+                                    props.getMyProjects()
+                                })
+                                .catch( err => console.log(err) )
+                    })
+                    .catch( err => console.log(err) )
             })
             .catch(err => console.log(err))
     }

@@ -34,7 +34,7 @@ const status = require("./routes/status");
 app.use("/api/status", isAuthenticated, status);
 
 const users = require("./routes/users");
-app.use("/api/users", users);
+app.use("/api/users", isAuthenticated, users);
 
 
 

@@ -50,12 +50,10 @@ const ProjectEdit = props => {
                         .catch( err => console.log(err))
                 })
 
-                console.log(uncheckedMemberOptions);
                 uncheckedMemberOptions.forEach( member => {
                     
                     const index = member.projects.indexOf( newProject.data._id )
                     if ( index >= 0 ) member.projects.splice( index, 1 )
-                    console.log(member);
                
                     axios.put(`/api/users/${member._id}`, member, { headers: { Authorization: `Bearer ${storedToken}` } })
                         .then( updatedUser => console.log(updatedUser.data._id) )
